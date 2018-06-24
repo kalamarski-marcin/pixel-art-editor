@@ -27,9 +27,9 @@ class ColorPickerContainer extends Component {
 }
 
 ColorPickerContainer.propTypes = {
-  setActiveColor: PropTypes.func,
-  activeColor: PropTypes.string,
-  colors: PropTypes.array
+  setActiveColor: PropTypes.func.isRequired,
+  activeColor: PropTypes.string.isRequired,
+  colors: PropTypes.array.isRequired
 }
 
 const mapDispatchToProps = {

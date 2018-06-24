@@ -21,12 +21,12 @@ const InputRange = (props) => (
 );
 
 InputRange.propTypes = {
-  value: PropTypes.number,
-  valueLabel: PropTypes.number,
-  handleOnChange: PropTypes.func,
-  handleOnInput: PropTypes.func,
-  label: PropTypes.string,
-  id: PropTypes.string
+  value: PropTypes.number.isRequired,
+  valueLabel: PropTypes.number.isRequired,
+  handleOnChange: PropTypes.func.isRequired,
+  handleOnInput: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
 }
 
 export default InputRange;

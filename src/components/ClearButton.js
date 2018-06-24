@@ -21,7 +21,7 @@ class ClearButton extends Component {
 }
 
 ClearButton.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object.isRequired
 };
 
 export default ClearButton;

@@ -8,7 +8,7 @@ const Main = ({children}) => (
 );
 
 Main.propTypes = {
-  children: PropTypes.object
+  children: PropTypes.object.isRequired
 }
 
 export default Main;

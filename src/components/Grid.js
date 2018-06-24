@@ -26,9 +26,9 @@ const Grid = props => {
 };
 
 Grid.propTypes = {
-  grid: PropTypes.array,
-  grid_header: PropTypes.array,
-  handleFillCell: PropTypes.func
+  grid: PropTypes.array.isRequired,
+  grid_header: PropTypes.array.isRequired,
+  handleFillCell: PropTypes.func.isRequired
 };
 
 export default Grid;

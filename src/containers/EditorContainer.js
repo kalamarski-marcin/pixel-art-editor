@@ -47,10 +47,10 @@ class EditorContainer extends Component {
 }
 
 EditorContainer.propTypes = {
-  fillCell: PropTypes.func,
-  grid: PropTypes.array,
-  zoom: PropTypes.number,
-  grid_header: PropTypes.array
+  fillCell: PropTypes.func.isRequired,
+  grid: PropTypes.array.isRequired,
+  zoom: PropTypes.number.isRequired,
+  grid_header: PropTypes.array.isRequired
 }
 
 const mapDispatchToProps = {

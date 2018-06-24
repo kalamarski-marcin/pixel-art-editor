@@ -18,7 +18,7 @@ class ColumnsInputRangeContainer extends Component {
     this.setState({ valueLabel: parseInt(event.target.value, 10) })
   }
 
-  handleOnChange(event){
+  handleOnChange (event){
     this.props.resizeCols(event.target.value);
   }
 
@@ -37,8 +37,8 @@ class ColumnsInputRangeContainer extends Component {
 }
 
 ColumnsInputRangeContainer.propTypes = {
-  resizeCols: PropTypes.func,
-  cols: PropTypes.number
+  resizeCols: PropTypes.func.isRequired,
+  cols: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = {

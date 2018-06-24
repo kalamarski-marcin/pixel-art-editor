@@ -14,7 +14,7 @@ class RowsInputRangeContainer extends Component {
     this.state = { valueLabel: this.props.rows }
   }
 
-  handleOnChange(event){
+  handleOnChange (event){
     this.props.resizeRows(event.target.value);
   }
 
@@ -37,8 +37,8 @@ class RowsInputRangeContainer extends Component {
 }
 
 RowsInputRangeContainer.propTypes = {
-  resizeRows: PropTypes.func,
-  rows: PropTypes.number
+  resizeRows: PropTypes.func.isRequired,
+  rows: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = {
