@@ -9,10 +9,17 @@ class RowsInputRangeContainer extends Component {
     super(props);
 
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleOnInput = this.handleOnInput.bind(this);
+
+    this.state = { valueLabel: this.props.rows }
   }
 
   handleOnChange(event){
     this.props.resizeRows(event.target.value);
+  }
+
+  handleOnInput (event) {
+    this.setState({ valueLabel: parseInt(event.target.value, 10) })
   }
 
   render() {
@@ -22,6 +29,8 @@ class RowsInputRangeContainer extends Component {
         label="Wiersze"
         value={this.props.rows}
         handleOnChange={this.handleOnChange}
+        handleOnInput={this.handleOnInput}
+        valueLabel={this.state.valueLabel}
       />
     )
   }

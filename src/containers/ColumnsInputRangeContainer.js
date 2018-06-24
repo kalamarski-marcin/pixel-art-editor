@@ -9,6 +9,13 @@ class ColumnsInputRangeContainer extends Component {
     super(props);
 
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleOnInput = this.handleOnInput.bind(this);
+
+    this.state = { valueLabel: this.props.cols }
+  }
+
+  handleOnInput (event) {
+    this.setState({ valueLabel: parseInt(event.target.value, 10) })
   }
 
   handleOnChange(event){
@@ -22,6 +29,8 @@ class ColumnsInputRangeContainer extends Component {
         label="Kolumny"
         value={this.props.cols}
         handleOnChange={this.handleOnChange}
+        handleOnInput={this.handleOnInput}
+        valueLabel={this.state.valueLabel}
       />
     )
   }
