@@ -9,9 +9,16 @@ class ColumnsInputRangeContainer extends Component {
     super(props);
 
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleOnInput = this.handleOnInput.bind(this);
+
+    this.state = { valueLabel: this.props.cols }
   }
 
-  handleOnChange(event){
+  handleOnInput (event) {
+    this.setState({ valueLabel: parseInt(event.target.value, 10) })
+  }
+
+  handleOnChange (event){
     this.props.resizeCols(event.target.value);
   }
 
@@ -22,14 +29,16 @@ class ColumnsInputRangeContainer extends Component {
         label="Kolumny"
         value={this.props.cols}
         handleOnChange={this.handleOnChange}
+        handleOnInput={this.handleOnInput}
+        valueLabel={this.state.valueLabel}
       />
     )
   }
 }
 
 ColumnsInputRangeContainer.propTypes = {
-  resizeCols: PropTypes.func,
-  cols: PropTypes.number
+  resizeCols: PropTypes.func.isRequired,
+  cols: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = {

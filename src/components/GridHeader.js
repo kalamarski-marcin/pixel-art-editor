@@ -23,7 +23,7 @@ const GridHeader = (props) => (
 );
 
 GridHeader.propTypes = {
-  grid_header: PropTypes.array
+  grid_header: PropTypes.array.isRequired
 };
 
 export default GridHeader;

@@ -22,10 +22,10 @@ class Cell extends Component {
 }
 
 Cell.propTypes = {
-  backgroundColor: PropTypes.string,
-  row: PropTypes.number,
-  col: PropTypes.number,
-  handleFillCell: PropTypes.func
+  backgroundColor: PropTypes.string.isRequired,
+  row: PropTypes.number.isRequired,
+  col: PropTypes.number.isRequired,
+  handleFillCell: PropTypes.func.isRequired
 };
 
 export default Cell;

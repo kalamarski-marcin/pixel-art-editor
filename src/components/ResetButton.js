@@ -21,7 +21,7 @@ class ResetButton extends Component {
 }
 
 ResetButton.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object.isRequired
 };
 
 export default ResetButton;
