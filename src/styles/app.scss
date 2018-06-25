@@ -80,6 +80,12 @@ html {
 	overflow: auto;
 }
 
+.siderbar {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .left-sidebar {
 	display: flex;
 	border-right: 1px solid #eee;
@@ -89,29 +95,35 @@ html {
 	align-items: center;
 }
 
-.left-sidebar .input-wrapper label {
+.right-sidebar {
+	border-left: 1px solid #eee;
+	width: 250px;
+}
+
+.right-sidebar .input-wrapper label {
 	font-weight: bold;
 	width: 65px;
 }
 
-.left-sidebar .input-wrapper input[type="range"] {
+.right-sidebar .input-wrapper input[type="range"] {
 	width: 140px;
 }
 
-.left-sidebar .input-wrapper span {
+.right-sidebar .input-wrapper span {
 	width: 25px;
 	margin-left: 1px;
 	font-weight: bold;
 }
 
-.left-sidebar .buttons-wrapper {
+.right-sidebar .buttons-wrapper {
 	display: flex;
 	flex-direction: row;
-	flex-wrap: wrap;
 	align-items: center;
-	align-content: space-around;
-	justify-content: space-between;
-	width: 220px;
+	justify-content: center;
+
+	a {
+		margin: 0 5px;
+	}
 }
 
 .editor-color-picker {
