@@ -14,6 +14,10 @@ class RowsInputRangeContainer extends Component {
     this.state = { valueLabel: this.props.rows }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ valueLabel: nextProps.rows })
+  }
+
   handleOnChange (event){
     this.props.resizeRows(event.target.value);
   }

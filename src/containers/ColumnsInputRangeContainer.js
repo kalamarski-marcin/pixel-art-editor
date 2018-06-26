@@ -14,6 +14,10 @@ class ColumnsInputRangeContainer extends Component {
     this.state = { valueLabel: this.props.cols }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ valueLabel: nextProps.cols })
+  }
+
   handleOnInput (event) {
     this.setState({ valueLabel: parseInt(event.target.value, 10) })
   }
