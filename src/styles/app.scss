@@ -159,7 +159,7 @@ html {
 }
 
 .editor-grid {
-	align-self: center;
+	align-self: flex-start;
 	counter-reset: grid-rows;
 	display: flex;
 	flex-direction: column;

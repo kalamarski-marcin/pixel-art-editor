@@ -102,7 +102,7 @@ function editor(state = initialState, action) {
     };
   }
   case SET_ACTIVE_COLOR: {
-    return { ...state, activecolor: action.activeColor }
+    return { ...state, activeColor: action.activeColor }
   }
   case RESIZE_COLS: {
     let cols = parseInt(action.cols, 10);
