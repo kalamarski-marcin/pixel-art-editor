@@ -13,6 +13,13 @@ const {
 const DEFAULT_ROWS = 15;
 const DEFAULT_COLS = 15;
 
+const COLORS = [
+  '#000000','#808080', '#C0C0C0','#800000',
+  '#FF0000','#808000','#FFFF00','#008000',
+  '#00FF00','#008080','#00FFFF','#000080',
+  '#0000FF','#f0f8ff','#800080','#FF00FF'
+];
+
 const charGenerator = function * (charAt = 65) {
   while (true) {
     yield String.fromCharCode(charAt++);
@@ -29,20 +36,44 @@ const createGrid = (rows, cols) => {
   return Array.from(new Array(rows), cells);
 };
 
+const createKey = () => R.zipObj(
+  COLORS,
+  Array.from(new Array(COLORS.length), () => [])
+);
+
+const rebuildKey = (index, letters) => {
+  const keyItem = indexItem => letters[indexItem.col].concat(indexItem.row+1);
+  const groupedIndex = R.groupWith(
+    (a, b) => R.equals(a[0], b[0]),
+    R.map(indexItem => [indexItem.color, keyItem(indexItem)])(index)
+  );
+
+  const createNewKey = (group, obj = {}) => {
+    let tmp = R.uniq(R.flatten(group))
+    obj[R.head(tmp)] = R.tail(tmp)
+    return obj;
+  }
+
+  return R.merge(
+    createKey(),
+    R.reduce(
+      R.merge,
+      {},
+      R.map(group => createNewKey(group))(groupedIndex)
+    )
+  )
+}
+
 const initialState = {
   grid_header: createGridHeader(DEFAULT_COLS),
   grid: createGrid(DEFAULT_ROWS, DEFAULT_COLS),
   activeColor: '#000000',
   cols: DEFAULT_COLS,
   rows: DEFAULT_ROWS,
-  colors: [
-    '#000000','#808080', '#C0C0C0','#800000',
-    '#FF0000','#808000','#FFFF00','#008000',
-    '#00FF00','#008080','#00FFFF','#000080',
-    '#0000FF','#f0f8ff','#800080','#FF00FF'
-  ],
+  colors: COLORS,
   zoom: 1,
-  index: []
+  index: [],
+  key: createKey()
 };
 
 function editor(state = initialState, action) {
@@ -57,6 +88,7 @@ function editor(state = initialState, action) {
     return {
       ...state,
       grid: createGrid(rows, cols),
+      key: createKey(),
       index: []
     }
   }
@@ -67,38 +99,36 @@ function editor(state = initialState, action) {
     let col = parseInt(action.col, 10);
     let activeColor = state.activeColor;
     let cellValue = grid[row][col];
+    let letters = R.clone(state.grid_header);
 
     let color = cellValue
       ? R.equals(cellValue, activeColor) ? null : activeColor
       : activeColor;
 
-    const findIndexedItemIndex = (row, col, index) => {
-      return index.findIndex(
-        item => R.and(R.equals(item.row,row), R.equals(item.col, col))
-      );
-    };
-
-    const adjustColorToCell = (grid, row, col, color) => {
-      return R.adjust(() => R.adjust(() => color)(col)(grid[row]))(row)(grid);
-    }
+    const findIndexItemIndex = index.findIndex(
+      item => R.and(R.equals(item.row,row), R.equals(item.col, col))
+    );
 
     const rebuildIndex = R.ifElse(
       () => R.isNil(color),
-      R.remove(findIndexedItemIndex(row, col, index),1),
-      R.when(
-        () => R.equals(findIndexedItemIndex(row, col, index), -1),
-        R.append({
-          row: row,
-          col: col,
-          color: color
-        })
+      R.remove(findIndexItemIndex, 1),
+      R.ifElse(
+        () => R.equals(findIndexItemIndex, -1),
+        R.append({ row, col, color }),
+        index => {
+          index[findIndexItemIndex] = R.merge(index[findIndexItemIndex], {color})
+          return index;
+        }
       )
     );
 
+    index = rebuildIndex(index);
+
     return {
       ...state,
-      grid: adjustColorToCell(grid, row, col, color),
-      index: rebuildIndex(index)
+      index,
+      key: R.isEmpty(index) ? createKey() : rebuildKey(index, letters),
+      grid: R.adjust(() => R.adjust(() => color)(col)(grid[row]))(row)(grid)
     };
   }
   case SET_ACTIVE_COLOR: {
