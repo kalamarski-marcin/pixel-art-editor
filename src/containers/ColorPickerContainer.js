@@ -12,7 +12,7 @@ class ColorPickerContainer extends Component {
   }
 
   handleOnClick(event) {
-    this.props.setActiveColor(event.target.dataset.color);
+      this.props.setActiveColor(event.target.dataset.color);
   }
 
   render() {

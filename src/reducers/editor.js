@@ -1,5 +1,5 @@
 import ActionTypes from '../constants';
-import { cloneDeep } from 'lodash/lang';
+const R = require('ramda');
 
 const {
   FILL_CELL,
@@ -10,8 +10,8 @@ const {
   RESET_EDITOR
 } = ActionTypes;
 
-const DEFAULT_ROWS = 26;
-const DEFAULT_COLS = 26;
+const DEFAULT_ROWS = 15;
+const DEFAULT_COLS = 15;
 
 const charGenerator = function * (charAt = 65) {
   while (true) {
@@ -41,7 +41,8 @@ const initialState = {
     '#00FF00','#008080','#00FFFF','#000080',
     '#0000FF','#f0f8ff','#800080','#FF00FF'
   ],
-  zoom: 1
+  zoom: 1,
+  index: []
 };
 
 function editor(state = initialState, action) {
@@ -53,51 +54,97 @@ function editor(state = initialState, action) {
     let cols = state.cols;
     let rows = state.rows;
 
-    return { ...state, grid: createGrid(rows, cols) }
+    return {
+      ...state,
+      grid: createGrid(rows, cols),
+      index: []
+    }
   }
   case FILL_CELL: {
-    let grid = cloneDeep(state.grid);
-    let row = action.row;
-    let col = action.col;
+    let index = R.clone(state.index);
+    let grid = R.clone(state.grid);
+    let row = parseInt(action.row, 10);
+    let col = parseInt(action.col, 10);
     let activeColor = state.activeColor;
+    let cellValue = grid[row][col];
 
-    grid[row][col] = grid[row][col]
-      ? grid[row][col] === activeColor ? null : activeColor
+    let color = cellValue
+      ? R.equals(cellValue, activeColor) ? null : activeColor
       : activeColor;
 
-    return { ...state, grid };
+    const findIndexedItemIndex = (row, col, index) => {
+      return index.findIndex(
+        item => R.and(R.equals(item.row,row), R.equals(item.col, col))
+      );
+    };
+
+    const adjustColorToCell = (grid, row, col, color) => {
+      return R.adjust(() => R.adjust(() => color)(col)(grid[row]))(row)(grid);
+    }
+
+    const rebuildIndex = R.ifElse(
+      () => R.isNil(color),
+      R.remove(findIndexedItemIndex(row, col, index),1),
+      R.when(
+        () => R.equals(findIndexedItemIndex(row, col, index), -1),
+        R.append({
+          row: row,
+          col: col,
+          color: color
+        })
+      )
+    );
+
+    return {
+      ...state,
+      grid: adjustColorToCell(grid, row, col, color),
+      index: rebuildIndex(index)
+    };
   }
   case SET_ACTIVE_COLOR: {
-    return { ...state, activeColor: action.activeColor }
+    return { ...state, activecolor: action.activeColor }
   }
   case RESIZE_COLS: {
     let cols = parseInt(action.cols, 10);
-    let grid = cloneDeep(state.grid);
-    let countCols = grid[0].length;
+    let currentCols = state.cols;
+    let grid = R.clone(state.grid);
+    let index = R.clone(state.index);
 
     grid = grid.map(row => {
-      return cols > countCols
-        ? row.concat(Array.from(new Array(cols - countCols), () => null))
+      return R.gt(cols, currentCols)
+        ? row.concat(Array.from(new Array(cols - currentCols), () => null))
         : row.slice(0, cols);
     });
 
-    return { ...state, cols, grid, grid_header: createGridHeader(cols) };
+    const rebuildIndex = R.filter(item => R.lte(item.col, (cols-1)));
+
+    return {
+      ...state,
+      cols,
+      grid,
+      index: rebuildIndex(index),
+      grid_header: createGridHeader(cols)
+    };
   }
   case RESIZE_ROWS: {
     let rows = parseInt(action.rows, 10);
-    let grid = cloneDeep(state.grid);
-    let cols = state.grid[0].length;
+    let grid = R.clone(state.grid);
+    let cols = state.cols;
+    let currentRows = state.rows;
+    let index = R.clone(state.index);
 
-    let countRows = grid.length;
+    grid = (R.gt(rows, currentRows))
+      ? grid.concat(createGrid((rows - currentRows), cols))
+      : grid.slice(0, rows);
 
-    if (rows > countRows) {
-      let newGrid = createGrid((rows - countRows), cols);
-      grid = grid.concat(newGrid);
-    } else {
-      grid = grid.slice(0, rows);
-    }
+    const rebuildIndex = R.filter(item => R.lte(item.row, (rows-1)));
 
-    return { ...state, rows, grid };
+    return {
+      ...state,
+      rows,
+      grid,
+      index: rebuildIndex(index)
+    };
   }
   default:
     return state;
@@ -127,6 +174,5 @@ export const resizeCols = (cols) => (
 export const resizeRows = (rows) => (
   {type: RESIZE_ROWS, rows}
 )
-
 
 export default editor;
