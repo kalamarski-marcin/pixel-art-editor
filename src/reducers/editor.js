@@ -41,27 +41,16 @@ const createKey = () => R.zipObj(
   Array.from(new Array(COLORS.length), () => [])
 );
 
-const rebuildKey = (index, letters) => {
-  const keyItem = indexItem => letters[indexItem.col].concat(indexItem.row+1);
-  const groupedIndex = R.groupWith(
-    (a, b) => R.equals(a[0], b[0]),
-    R.map(indexItem => [indexItem.color, keyItem(indexItem)])(index)
-  );
+const buildKey = (grid, letters) => {
+  let key = createKey();
+  for(let [y, row] of grid.entries() ){
+    for(let [x, color] of row.entries() ) {
+      if (R.isNil(color)) continue;
 
-  const createNewKey = (group, obj = {}) => {
-    let tmp = R.uniq(R.flatten(group))
-    obj[R.head(tmp)] = R.tail(tmp)
-    return obj;
+      key[color] = R.append(`${letters[x]}${y+1}`, key[color]);
+    }
   }
-
-  return R.merge(
-    createKey(),
-    R.reduce(
-      R.merge,
-      {},
-      R.map(group => createNewKey(group))(groupedIndex)
-    )
-  )
+  return key;
 }
 
 const initialState = {
@@ -72,7 +61,6 @@ const initialState = {
   rows: DEFAULT_ROWS,
   colors: COLORS,
   zoom: 1,
-  index: [],
   key: createKey()
 };
 
@@ -87,49 +75,28 @@ function editor(state = initialState, action) {
 
     return {
       ...state,
-      grid: createGrid(rows, cols),
-      key: createKey(),
-      index: []
+      grid: createGrid(rows, cols)
     }
   }
   case FILL_CELL: {
-    let index = R.clone(state.index);
     let grid = R.clone(state.grid);
+
     let row = parseInt(action.row, 10);
     let col = parseInt(action.col, 10);
     let activeColor = state.activeColor;
     let cellValue = grid[row][col];
-    let letters = R.clone(state.grid_header);
 
     let color = cellValue
       ? R.equals(cellValue, activeColor) ? null : activeColor
       : activeColor;
 
-    const findIndexItemIndex = index.findIndex(
-      item => R.and(R.equals(item.row,row), R.equals(item.col, col))
-    );
-
-    const rebuildIndex = R.ifElse(
-      () => R.isNil(color),
-      R.remove(findIndexItemIndex, 1),
-      R.ifElse(
-        () => R.equals(findIndexItemIndex, -1),
-        R.append({ row, col, color }),
-        index => {
-          index[findIndexItemIndex] = R.merge(index[findIndexItemIndex], {color})
-          return index;
-        }
-      )
-    );
-
-    index = rebuildIndex(index);
+    grid = R.adjust(() => R.adjust(() => color)(col)(grid[row]))(row)(grid);
 
     return {
       ...state,
-      index,
-      key: R.isEmpty(index) ? createKey() : rebuildKey(index, letters),
-      grid: R.adjust(() => R.adjust(() => color)(col)(grid[row]))(row)(grid)
-    };
+      grid: grid,
+      key: buildKey(grid, state.grid_header)
+    }
   }
   case SET_ACTIVE_COLOR: {
     return { ...state, activeColor: action.activeColor }
@@ -138,7 +105,6 @@ function editor(state = initialState, action) {
     let cols = parseInt(action.cols, 10);
     let currentCols = state.cols;
     let grid = R.clone(state.grid);
-    let index = R.clone(state.index);
 
     grid = grid.map(row => {
       return R.gt(cols, currentCols)
@@ -146,14 +112,14 @@ function editor(state = initialState, action) {
         : row.slice(0, cols);
     });
 
-    const rebuildIndex = R.filter(item => R.lte(item.col, (cols-1)));
+    let grid_header = createGridHeader(cols);
 
     return {
       ...state,
       cols,
       grid,
-      index: rebuildIndex(index),
-      grid_header: createGridHeader(cols)
+      grid_header,
+      key: buildKey(grid, grid_header)
     };
   }
   case RESIZE_ROWS: {
@@ -161,19 +127,16 @@ function editor(state = initialState, action) {
     let grid = R.clone(state.grid);
     let cols = state.cols;
     let currentRows = state.rows;
-    let index = R.clone(state.index);
 
     grid = (R.gt(rows, currentRows))
       ? grid.concat(createGrid((rows - currentRows), cols))
       : grid.slice(0, rows);
 
-    const rebuildIndex = R.filter(item => R.lte(item.row, (rows-1)));
-
     return {
       ...state,
       rows,
       grid,
-      index: rebuildIndex(index)
+      key: buildKey(grid, state.grid_header)
     };
   }
   default:
