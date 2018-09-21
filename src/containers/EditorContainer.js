@@ -1,47 +1,41 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {fillCell} from '../reducers/editor';
+import { connect } from 'react-redux';
+import { fillCell } from '../reducers/editor';
 import Grid from '../components/Grid';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 class EditorContainer extends Component {
-  constructor (props){
+  constructor(props) {
     super(props);
 
     this.handleFillCell = this.handleFillCell.bind(this);
   }
 
-  handleFillCell (event) {
+  componentWillMount() {
+    this.setState({
+      loading: false
+    });
+  }
+
+  handleFillCell(event) {
     this.props.fillCell(
       event.target.dataset.row,
       event.target.dataset.col
     );
   }
 
-  printDoc () {
-    const input = document.getElementById('grid');
-    html2canvas(input)
-      .then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, 'JPEG', 0, 0);
-        // pdf.output('dataurlnewwindow');
-        pdf.save('download.pdf');
-      });
-  }
-
   render() {
     const { zoom, grid_header, grid } = this.props;
 
     return (
-      <Grid
-        zoom={zoom}
-        grid_header={grid_header}
-        grid={grid}
-        handleFillCell={this.handleFillCell}
-      />
+      <div style={{padding: '0 0 0 5px'}}>
+        {!this.state.loading && <Grid
+          zoom={zoom}
+          grid_header={grid_header}
+          grid={grid}
+          handleFillCell={this.handleFillCell}
+        />}
+      </div>
     );
   }
 }

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Content = (props) => (
-  <div className="fill-area fill-area-content flexbox-item-grow">
-    {props.children}
+  <div className="content">
+   {props.children}
   </div>
 );
 

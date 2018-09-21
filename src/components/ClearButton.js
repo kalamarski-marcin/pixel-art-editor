@@ -8,7 +8,7 @@ class ClearButton extends Component {
 
     return (
       <a
-        className="is-primary button"
+        className="is-primary button is-small"
         onClick={() => store.dispatch(clearEditor()) }
       >
         <span>Wyczyść</span>
