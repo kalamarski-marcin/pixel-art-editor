@@ -8,7 +8,7 @@ class ResetButton extends Component {
 
     return (
       <a
-        className="is-danger button is-outlined"
+        className="is-danger button is-small is-outlined"
         onClick={() => store.dispatch(resetEditor()) }
       >
         <span>Reset</span>

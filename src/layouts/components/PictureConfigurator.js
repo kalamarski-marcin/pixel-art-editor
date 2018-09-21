@@ -4,6 +4,7 @@ import RowsInputRangeContainer from '../../containers/RowsInputRangeContainer';
 import ColorPickerContainer from '../../containers/ColorPickerContainer';
 import ResetButton from '../../components/ResetButton';
 import ClearButton from '../../components/ClearButton';
+import PrintButton from '../../components/PrintButton';
 
 const PictureConfigurator = () => (
   <div className="sidebar left-sidebar">
@@ -15,6 +16,7 @@ const PictureConfigurator = () => (
     <div className="buttons-wrapper">
       <ResetButton />
       <ClearButton />
+      <PrintButton />
     </div>
   </div>
 );

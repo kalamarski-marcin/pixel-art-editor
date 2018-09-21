@@ -7,16 +7,21 @@ class Cell extends Component {
   }
 
   render () {
-    const {row, col, backgroundColor, handleFillCell} = this.props;
+    const {row, col, backgroundColor, handleFillCell } = this.props;
 
     return (
       <div
         className="editor-grid__cell"
-        data-row={row}
-        data-col={col}
-        style={ { backgroundColor: backgroundColor }}
-        onClick={ handleFillCell }
-      />
+      >
+        <div
+          className="editor-grid__cell--fill"
+          data-html2canvas-ignore
+          data-row={row}
+          data-col={col}
+          onClick={ handleFillCell }
+          style={{ backgroundColor: backgroundColor }}
+        />
+      </div>
     );
   }
 }

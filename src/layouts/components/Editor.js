@@ -6,8 +6,10 @@ import LegendContainer from '../../containers/LegendContainer';
 const Editor = () => (
   <Fragment>
     <PictureConfigurator />
-    <EditorContainer />
-    <LegendContainer />
+    <div id="print-drawing">
+      <EditorContainer />
+      <LegendContainer />
+    </div>
   </Fragment>
 );
 
