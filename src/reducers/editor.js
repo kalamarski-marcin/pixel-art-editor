@@ -36,21 +36,22 @@ const createGrid = (rows, cols) => {
   return Array.from(new Array(rows), cells);
 };
 
-const createKey = () => R.zipObj(
-  COLORS,
-  Array.from(new Array(COLORS.length), () => [])
-);
+const sortLegendItems = (a, b) => a.localeCompare(b, 'en', { numeric: true });
 
-const buildKey = (grid, letters) => {
-  let key = createKey();
+const buildLegend = (grid, letters) => {
+  let legend = {};
   for(let [y, row] of grid.entries() ){
     for(let [x, color] of row.entries() ) {
       if (R.isNil(color)) continue;
 
-      key[color] = R.append(`${letters[x]}${y+1}`, key[color]);
+      legend[color] = R.sort(
+        sortLegendItems,
+        R.append(`${letters[x]}${y + 1}`, legend[color])
+      );
     }
   }
-  return key;
+
+  return legend;
 }
 
 const initialState = {
@@ -61,7 +62,7 @@ const initialState = {
   rows: DEFAULT_ROWS,
   colors: COLORS,
   zoom: 1,
-  key: createKey()
+  legend: {}
 };
 
 function editor(state = initialState, action) {
@@ -75,7 +76,8 @@ function editor(state = initialState, action) {
 
     return {
       ...state,
-      grid: createGrid(rows, cols)
+      grid: createGrid(rows, cols),
+      legend: {}
     }
   }
   case FILL_CELL: {
@@ -95,7 +97,7 @@ function editor(state = initialState, action) {
     return {
       ...state,
       grid: grid,
-      key: buildKey(grid, state.grid_header)
+      legend: buildLegend(grid, state.grid_header)
     }
   }
   case SET_ACTIVE_COLOR: {
@@ -119,7 +121,7 @@ function editor(state = initialState, action) {
       cols,
       grid,
       grid_header,
-      key: buildKey(grid, grid_header)
+      legend: buildLegend(grid, grid_header)
     };
   }
   case RESIZE_ROWS: {
@@ -136,7 +138,7 @@ function editor(state = initialState, action) {
       ...state,
       rows,
       grid,
-      key: buildKey(grid, state.grid_header)
+      legend: buildLegend(grid, state.grid_header)
     };
   }
   default:

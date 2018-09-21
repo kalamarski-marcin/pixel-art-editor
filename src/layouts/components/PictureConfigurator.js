@@ -5,15 +5,13 @@ import ColorPickerContainer from '../../containers/ColorPickerContainer';
 import ResetButton from '../../components/ResetButton';
 import ClearButton from '../../components/ClearButton';
 
-const RightSidebar = () => (
-  <div className="sidebar right-sidebar">
+const PictureConfigurator = () => (
+  <div className="sidebar left-sidebar">
     <div className="inputs-wrapper">
       <ColumnInputRangeContainer />
       <RowsInputRangeContainer />
     </div>
-    <div className="color-picker-wrapper">
-      <ColorPickerContainer />
-    </div>
+    <ColorPickerContainer />
     <div className="buttons-wrapper">
       <ResetButton />
       <ClearButton />
@@ -21,4 +19,4 @@ const RightSidebar = () => (
   </div>
 );
 
-export default RightSidebar;
+export default PictureConfigurator;

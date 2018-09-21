@@ -68,19 +68,12 @@ html {
 	}
 }
 
-.fill-area {
+.content {
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
-	align-items: stretch;
-	align-content: stretch;
 }
 
-.fill-area-content {
-	overflow: auto;
-}
-
-.siderbar {
+.sidebar {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -88,34 +81,29 @@ html {
 
 .left-sidebar {
 	display: flex;
-	border-right: 1px solid #eee;
+	border-right: 1px solid lightgray;
 	width: 250px;
 	background-color: #fff;
 	flex-direction: column;
 	align-items: center;
 }
 
-.right-sidebar {
-	border-left: 1px solid #eee;
-	width: 250px;
-}
-
-.right-sidebar .input-wrapper label {
+.sidebar .input-wrapper label {
 	font-weight: bold;
 	width: 65px;
 }
 
-.right-sidebar .input-wrapper input[type="range"] {
+.sidebar .input-wrapper input[type="range"] {
 	width: 140px;
 }
 
-.right-sidebar .input-wrapper span {
+.sidebar .input-wrapper span {
 	width: 25px;
 	margin-left: 1px;
 	font-weight: bold;
 }
 
-.right-sidebar .buttons-wrapper {
+.sidebar .buttons-wrapper {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -137,19 +125,14 @@ html {
 .editor-color-picker__color {
 	margin: 3px;
 	border-radius: 5%;
-	border: 1px solid #555;
 	display: flex;
-	width: 50px;
-	height: 34px;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
 
 	&:hover {
 		cursor: pointer;
-		border: 2px solid #555;
 	}
-}
-
-.editor-color-picker__color--active {
-	border: 2px solid #555;
 }
 
 .editor-grid-container {
@@ -203,8 +186,8 @@ html {
 
 .editor-grid__cell {
 	display: flex;
-	width: 32px;
-	height: 32px;
+	width: 22px;
+	height: 22px;
 }
 
 .editor-grid__cell--header {
@@ -219,6 +202,26 @@ html {
 	border: none !important;
 	justify-content: center;
 	align-items: center;
+}
+
+.legend-item-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 5px 0;
+	border-bottom: 1px dashed #eaeaea;
+
+	.legend-item__color {
+		margin: 5px;
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.legend-item__coords {
+		font-size: 12px;
+	}
 }
 
 .inputs-wrapper {

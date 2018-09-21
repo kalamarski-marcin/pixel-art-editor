@@ -1,16 +1,13 @@
 import React, { Fragment } from 'react';
-import Content from './Content';
-import Sidebar from './Sidebar';
-import RightSidebar from './RightSidebar';
+import PictureConfigurator from './PictureConfigurator';
 import EditorContainer from '../../containers/EditorContainer';
+import LegendContainer from '../../containers/LegendContainer';
 
 const Editor = () => (
   <Fragment>
-    <Sidebar />
-    <Content>
-      <EditorContainer />
-    </Content>
-    <RightSidebar />
+    <PictureConfigurator />
+    <EditorContainer />
+    <LegendContainer />
   </Fragment>
 );
 
