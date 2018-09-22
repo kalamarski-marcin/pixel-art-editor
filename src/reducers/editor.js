@@ -7,7 +7,8 @@ const {
   RESIZE_COLS,
   RESIZE_ROWS,
   CLEAR_EDITOR,
-  RESET_EDITOR
+  RESET_EDITOR,
+  SET_HTML2CANVAS_IGNORE
 } = ActionTypes;
 
 const DEFAULT_ROWS = 15;
@@ -61,12 +62,19 @@ const initialState = {
   cols: DEFAULT_COLS,
   rows: DEFAULT_ROWS,
   colors: COLORS,
+  html2canvasIgnore: true,
   zoom: 1,
   legend: {}
 };
 
 function editor(state = initialState, action) {
-  switch(action.type){
+  switch (action.type) {
+  case SET_HTML2CANVAS_IGNORE: {
+      return {
+        ...state,
+        html2canvasIgnore: action.html2canvasIgnore
+      }
+  }
   case RESET_EDITOR: {
     return { ...initialState }
   }
@@ -154,6 +162,10 @@ export const clearEditor = () => (
   { type: CLEAR_EDITOR }
 );
 
+export const setHtml2canvasIgnore = (html2canvasIgnore) => (
+  { type: SET_HTML2CANVAS_IGNORE, html2canvasIgnore }
+);
+
 export const setActiveColor = (activeColor) => (
   { type: SET_ACTIVE_COLOR, activeColor }
 );
@@ -163,11 +175,11 @@ export const fillCell = (row, col) => (
 );
 
 export const resizeCols = (cols) => (
-  {type: RESIZE_COLS, cols}
+  { type: RESIZE_COLS, cols }
 )
 
 export const resizeRows = (rows) => (
-  {type: RESIZE_ROWS, rows}
+  { type: RESIZE_ROWS, rows }
 )
 
 export default editor;

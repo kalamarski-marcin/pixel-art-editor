@@ -30,20 +30,23 @@ const renderLegend = (legend) => {
 };
 
 const Legend = props => (
-  <div style={
-    {
+  <div
+    { ...props.html2canvasIgnore == false && { 'data-html2canvas-ignore': '' } }
+    style={{
       flexDirection: 'column',
       padding: '10px',
       display: 'flex',
       flex: 1,
       flexGrow: 1
-    }}>
+    }}
+  >
     {renderLegend(props.legend)}
   </div>
 );
 
 Legend.propTypes = {
-  legend: PropTypes.object.isRequired
+  legend: PropTypes.object.isRequired,
+  html2canvasIgnore: PropTypes.bool.isRequired
 };
 
 export default Legend;

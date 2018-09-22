@@ -2,6 +2,7 @@ import React from 'react';
 import ColumnInputRangeContainer from '../../containers/ColumnsInputRangeContainer';
 import RowsInputRangeContainer from '../../containers/RowsInputRangeContainer';
 import ColorPickerContainer from '../../containers/ColorPickerContainer';
+import PrintingOptionsContainer from '../../containers/PrintingOptionsContainer';
 import ResetButton from '../../components/ResetButton';
 import ClearButton from '../../components/ClearButton';
 import PrintButton from '../../components/PrintButton';
@@ -13,6 +14,9 @@ const PictureConfigurator = () => (
       <RowsInputRangeContainer />
     </div>
     <ColorPickerContainer />
+    <div>
+      <PrintingOptionsContainer />
+    </div>
     <div className="buttons-wrapper">
       <ResetButton />
       <ClearButton />

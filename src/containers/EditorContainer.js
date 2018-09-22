@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component  } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fillCell } from '../reducers/editor';
@@ -25,17 +25,16 @@ class EditorContainer extends Component {
   }
 
   render() {
-    const { zoom, grid_header, grid } = this.props;
+    const { zoom, grid_header, grid, html2canvasIgnore } = this.props;
 
     return (
-      <div style={{padding: '0 0 0 5px'}}>
-        {!this.state.loading && <Grid
-          zoom={zoom}
-          grid_header={grid_header}
-          grid={grid}
-          handleFillCell={this.handleFillCell}
-        />}
-      </div>
+      <Grid
+        html2canvasIgnore={html2canvasIgnore}
+        zoom={zoom}
+        grid_header={grid_header}
+        grid={grid}
+        handleFillCell={this.handleFillCell}
+      />
     );
   }
 }
@@ -44,7 +43,8 @@ EditorContainer.propTypes = {
   fillCell: PropTypes.func.isRequired,
   grid: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
-  grid_header: PropTypes.array.isRequired
+  grid_header: PropTypes.array.isRequired,
+  html2canvasIgnore: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = {
@@ -54,7 +54,8 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
   grid: state.editor.grid,
   zoom: state.editor.zoom,
-  grid_header: state.editor.grid_header
+  grid_header: state.editor.grid_header,
+  html2canvasIgnore: state.editor.html2canvasIgnore
 });
 
 export default connect(

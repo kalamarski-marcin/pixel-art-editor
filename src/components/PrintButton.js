@@ -5,9 +5,9 @@ import html2canvas from 'html2canvas';
 
 class PrintButton extends Component {
   printDoc() {
-    const input = document.getElementById('print-drawing');
+    const input = document.getElementById('print-drawing-wrapper');
 
-    html2canvas(input, { scale: 0.9, backgroundColor: '#fff' })
+    html2canvas(input, { scale: 1, backgroundColor: '#fff' })
       .then((canvas) => {
         var ctx = canvas.getContext('2d');
 
@@ -17,7 +17,7 @@ class PrintButton extends Component {
 
         const imgData = canvas.toDataURL('image/jpeg', 1);
 
-        const pdf = new jsPDF('portrait', 'mm', 'A4');
+        const pdf = new jsPDF('landscape', 'mm', 'A4');
 
         pdf.addImage(imgData, 'JPEG', 0, 0);
         pdf.save('download.pdf');
