@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+const R = require('ramda');
 
-const LegendItem = props => (
-  <div className="legend-item-wrapper">
-    <span className="legend-item__color" style={{ backgroundColor: props.color }} />
-    <span className="legend-item__coords">{props.coordinates.join(', ')}</span>
-  </div>
-);
+class LegendItem extends Component {
+  shouldComponentUpdate(nextProps) {
+    return R.length(nextProps.coordinates) !== R.length(this.props.coordinates);
+  }
+
+  render() {
+    return (
+      <div className="legend-item-wrapper">
+        <span className="legend-item__color" style={{ backgroundColor: this.props.color }} />
+        <span className="legend-item__coords">{this.props.coordinates.join(', ')}</span>
+      </div>
+    );
+  }
+}
 
 LegendItem.propTypes = {
   color: PropTypes.string.isRequired,
@@ -31,7 +40,7 @@ const renderLegend = (legend) => {
 
 const Legend = props => (
   <div
-    { ...props.html2canvasIgnore == false && { 'data-html2canvas-ignore': '' } }
+    {...props.html2canvasIgnore == false && { 'data-html2canvas-ignore': '' }}
     style={{
       flexDirection: 'column',
       padding: '10px',
