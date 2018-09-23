@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Cell from './Cell';
@@ -18,14 +18,31 @@ const renderCells = (row, cells, html2canvasIgnore, handleFillCell) => {
   });
 };
 
-const Row = props => (
-  <div className="editor-grid__row">
-    <div className="editor-grid__cell editor-grid__cell--counter">
-      {(props.row + 1)}
-    </div>
-    { renderCells(props.row, props.cells, props.html2canvasIgnore, props.handleFillCell) }
-  </div>
-);
+class Row extends Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.cells.filter(n => n).length !== this.props.cells.filter(n => n).length ||
+      nextProps.cells.length !== this.props.cells.length ||
+      nextProps.html2canvasIgnore !== this.props.html2canvasIgnore
+  }
+
+  render() {
+    return (
+      <div className="editor-grid__row">
+        <div className="editor-grid__cell editor-grid__cell--counter">
+          {(this.props.row + 1)}
+        </div>
+        {
+          renderCells(
+            this.props.row,
+            this.props.cells,
+            this.props.html2canvasIgnore,
+            this.props.handleFillCell
+          )
+        }
+      </div>
+    );
+  }
+}
 
 Row.propTypes = {
   row: PropTypes.number.isRequired,

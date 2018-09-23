@@ -4,7 +4,13 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
 class PrintButton extends Component {
-  printDoc() {
+  constructor(props) {
+    super(props);
+
+    this.handlePrint = this.handlePrint.bind(this);
+  }
+
+  handlePrint() {
     const input = document.getElementById('print-drawing-wrapper');
 
     html2canvas(input, { scale: 1, backgroundColor: '#fff' })
@@ -26,15 +32,17 @@ class PrintButton extends Component {
 
   render() {
     return (
-      <a
-        className="is-info button is-small"
-        onClick={() => this.printDoc()}
-      >
-        <span>Drukuj</span>
-        <span className="icon is-small">
-          <i className="fas fa-print" />
-        </span>
-      </a>
+      <div>
+        <a
+          className="is-info button is-small"
+          onClick={this.handlePrint}
+        >
+          <span>Drukuj</span>
+          <span className="icon is-small">
+            <i className="fas fa-print" />
+          </span>
+        </a>
+      </div>
     );
   }
 }

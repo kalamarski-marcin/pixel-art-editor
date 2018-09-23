@@ -127,16 +127,21 @@ html {
 }
 
 .editor-color-picker__color {
-	margin: 3px;
-	border-radius: 5%;
+	margin: 4px;
 	display: flex;
 	width: 46px;
 	height: 46px;
-	border-radius: 50%;
+	border: 1px solid #fff;
 
 	&:hover {
 		cursor: pointer;
 	}
+}
+
+.editor-color-picker__color--active {
+	outline: none;
+	box-shadow: 0px 0px 0px 4px #fff inset;
+	border: 3px solid black;
 }
 
 .editor-grid-container {
@@ -223,9 +228,8 @@ html {
 
 	.legend-item__color {
 		margin: 5px;
-		width: 16px;
-		height: 16px;
-		border-radius: 50%;
+		width: 18px;
+		height: 18px;
 		flex-shrink: 0;
 	}
 
