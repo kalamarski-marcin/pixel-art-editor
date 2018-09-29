@@ -2,9 +2,12 @@ import React from 'react';
 
 const Header = () => (
   <div className="flexbox-item header">
-    <span className="icon">
-      <i className="fas fa-paint-brush"></i>
-    </span>
+    <a href="http://domowenauczanie.pl">
+    <img
+      style={{ width: '200px' }}
+      src="http://domowenauczanie.pl/wp-content/uploads/2018/07/cropped-logoed2-2.png"
+      />
+    </a>
   </div>
 );
 
