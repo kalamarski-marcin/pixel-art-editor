@@ -26,13 +26,15 @@ const renderLegend = (legend) => {
   const legendItems = [];
 
   Object.entries(legend).forEach(([key, value]) => {
-    legendItems.push(
-      <LegendItem
-        key={`legend-item-${key}`}
-        color={key}
-        coordinates={value}
-      />
-    )
+    if (value.length > 0) {
+      legendItems.push(
+        <LegendItem
+          key={`legend-item-${key}`}
+          color={key}
+          coordinates={value}
+        />
+      );
+    }
   });
 
   return legendItems;

@@ -283,3 +283,18 @@ html {
 		}
 	}
 }
+
+.painting-mode-wrapper {
+	display: flex;
+	flex-direction: row;
+
+	.painting-mode {
+		border: 2px solid #eaeaea;
+		padding: 28px;
+		margin: 10px;
+	}
+
+	.painting-mode--active {
+		border-color: #000;
+	}
+}

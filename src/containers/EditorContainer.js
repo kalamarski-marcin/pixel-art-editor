@@ -1,46 +1,57 @@
-import React, { Component  } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fillCell } from '../reducers/editor';
+import {
+  paintBrush,
+  paintRoller,
+  startPaintRollerMode,
+  endPaintRollerMode
+} from '../reducers/editor';
 import Grid from '../components/Grid';
 
 class EditorContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.handleFillCell = this.handleFillCell.bind(this);
+    this.handlePaintBrush = this.handlePaintBrush.bind(this);
+    this.handlePaintRoller = this.handlePaintRoller.bind(this);
   }
 
   componentWillMount() {
-    this.setState({
-      loading: false
-    });
+    this.setState({ loading: false });
   }
 
-  handleFillCell(event) {
-    this.props.fillCell(
-      event.target.dataset.row,
-      event.target.dataset.col
-    );
+  handlePaintBrush(event) {
+    this.props.paintBrush(event.target.dataset.row, event.target.dataset.col);
+  }
+
+  handlePaintRoller(event) {
+    this.props.paintRoller(event.target.dataset.row, event.target.dataset.col);
   }
 
   render() {
-    const { zoom, grid_header, grid, html2canvasIgnore } = this.props;
-
     return (
       <Grid
-        html2canvasIgnore={html2canvasIgnore}
-        zoom={zoom}
-        grid_header={grid_header}
-        grid={grid}
-        handleFillCell={this.handleFillCell}
+        html2canvasIgnore={this.props.html2canvasIgnore}
+        zoom={this.props.zoom}
+        grid_header={this.props.grid_header}
+        grid={this.props.grid}
+        paintBrush={this.handlePaintBrush}
+        paintRoller={this.handlePaintRoller}
+        mode={this.props.mode}
+        startPaintRollerMode={this.props.startPaintRollerMode}
+        endPaintRollerMode={this.props.endPaintRollerMode}
       />
     );
   }
 }
 
 EditorContainer.propTypes = {
-  fillCell: PropTypes.func.isRequired,
+  mode: PropTypes.object.isRequired,
+  startPaintRollerMode: PropTypes.func.isRequired,
+  endPaintRollerMode: PropTypes.func.isRequired,
+  paintBrush: PropTypes.func.isRequired,
+  paintRoller: PropTypes.func.isRequired,
   grid: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
   grid_header: PropTypes.array.isRequired,
@@ -48,10 +59,14 @@ EditorContainer.propTypes = {
 }
 
 const mapDispatchToProps = {
-  fillCell: fillCell
+  paintBrush,
+  paintRoller,
+  startPaintRollerMode,
+  endPaintRollerMode
 };
 
 const mapStateToProps = (state) => ({
+  mode: state.editor.mode,
   grid: state.editor.grid,
   zoom: state.editor.zoom,
   grid_header: state.editor.grid_header,

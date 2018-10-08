@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import Cell from './Cell';
 
-const renderCells = (row, cells, html2canvasIgnore, handleFillCell) => {
-  return cells.map((cell, index) => {
+const R = require('ramda');
+
+const renderCells = (props) => {
+  return props.cells.map((cell, index) => {
     return (
       <Cell
-        key={`cell-${row}-${index}`}
-        row={row}
+        key={`cell-${props.row}-${index}`}
+        row={props.row}
         col={index}
-        backgroundColor={cells[index]}
-        handleFillCell={handleFillCell}
-        html2canvasIgnore={html2canvasIgnore}
+        backgroundColor={props.cells[index]}
+        paintBrush={props.paintBrush}
+        paintRoller={props.paintRoller}
+        html2canvasIgnore={props.html2canvasIgnore}
+        mode={props.mode}
+        startPaintRollerMode={props.startPaintRollerMode}
+        endPaintRollerMode={props.endPaintRollerMode}
       />
     );
   });
@@ -20,9 +25,9 @@ const renderCells = (row, cells, html2canvasIgnore, handleFillCell) => {
 
 class Row extends Component {
   shouldComponentUpdate(nextProps) {
-    return nextProps.cells.filter(n => n).length !== this.props.cells.filter(n => n).length ||
-      nextProps.cells.length !== this.props.cells.length ||
-      nextProps.html2canvasIgnore !== this.props.html2canvasIgnore
+    return !R.equals(nextProps.cells, this.props.cells) ||
+      nextProps.html2canvasIgnore !== this.props.html2canvasIgnore ||
+      !R.equals(nextProps.mode, this.props.mode)
   }
 
   render() {
@@ -31,14 +36,7 @@ class Row extends Component {
         <div className="editor-grid__cell editor-grid__cell--counter">
           {(this.props.row + 1)}
         </div>
-        {
-          renderCells(
-            this.props.row,
-            this.props.cells,
-            this.props.html2canvasIgnore,
-            this.props.handleFillCell
-          )
-        }
+        { renderCells(this.props) }
       </div>
     );
   }
@@ -47,8 +45,12 @@ class Row extends Component {
 Row.propTypes = {
   row: PropTypes.number.isRequired,
   cells: PropTypes.array.isRequired,
-  handleFillCell: PropTypes.func.isRequired,
-  html2canvasIgnore: PropTypes.bool.isRequired
+  paintBrush: PropTypes.func.isRequired,
+  paintRoller: PropTypes.func.isRequired,
+  html2canvasIgnore: PropTypes.bool.isRequired,
+  mode: PropTypes.object.isRequired,
+  startPaintRollerMode: PropTypes.func.isRequired,
+  endPaintRollerMode: PropTypes.func.isRequired
 };
 
 export default Row;

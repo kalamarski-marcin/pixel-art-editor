@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import Row from './Row';
 import GridHeader from './GridHeader';
 
-const renderRows = (grid, html2canvasIgnore, handleFillCell) => {
-  return grid.map((row, index) => {
+const renderRows = (props) => {
+  return props.grid.map((row, index) => {
     return (
       <Row
         key={`row-${index}`}
         row={index}
-        cells={grid[index]}
-        handleFillCell={handleFillCell}
-        html2canvasIgnore={html2canvasIgnore}
+        cells={props.grid[index]}
+        paintBrush={props.paintBrush}
+        paintRoller={props.paintRoller}
+        html2canvasIgnore={props.html2canvasIgnore}
+        mode={props.mode}
+        startPaintRollerMode={props.startPaintRollerMode}
+        endPaintRollerMode={props.endPaintRollerMode}
       />
     );
   });
@@ -19,18 +23,27 @@ const renderRows = (grid, html2canvasIgnore, handleFillCell) => {
 
 const Grid = props => {
   return (
-    <div className="editor-grid" style={{ zoom: 1 }} id="grid">
+    <div
+      className="editor-grid"
+      style={{ zoom: 1 }}
+      id="grid"
+      onMouseLeave={props.mode.paintRoller.enabled && props.mode.paintRoller.started ? props.endPaintRollerMode : () => { }}
+    >
       <GridHeader grid_header={props.grid_header} />
-      { renderRows(props.grid, props.html2canvasIgnore, props.handleFillCell) }
+      { renderRows(props) }
     </div>
   )
 };
 
 Grid.propTypes = {
+  mode: PropTypes.object.isRequired,
   grid: PropTypes.array.isRequired,
   grid_header: PropTypes.array.isRequired,
-  handleFillCell: PropTypes.func.isRequired,
-  html2canvasIgnore: PropTypes.bool.isRequired
+  paintBrush: PropTypes.func.isRequired,
+  paintRoller: PropTypes.func.isRequired,
+  html2canvasIgnore: PropTypes.bool.isRequired,
+  startPaintRollerMode: PropTypes.func.isRequired,
+  endPaintRollerMode: PropTypes.func.isRequired
 };
 
 export default Grid;
