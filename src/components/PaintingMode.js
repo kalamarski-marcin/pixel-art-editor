@@ -7,7 +7,7 @@ const PaintingMode = props => (
       onClick={() => props.enablePaintBrushMode()}
       className={`painting-mode ${props.mode.paintBrush.enabled ? 'painting-mode--active' : ''}`}
     >
-      <i className="fas fa-paint-brush fa-2x"></i>
+      <i className="fas fa-marker fa-2x"></i>
     </div>
     <div
       onClick={() => props.enablePaintRollerMode()}
