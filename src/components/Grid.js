@@ -29,7 +29,7 @@ const Grid = props => {
       id="grid"
       onMouseLeave={props.mode.paintRoller.enabled && props.mode.paintRoller.started ? props.endPaintRollerMode : () => { }}
     >
-      <GridHeader grid_header={props.grid_header} />
+      <GridHeader gridHeader={props.gridHeader} />
       { renderRows(props) }
     </div>
   )
@@ -38,7 +38,7 @@ const Grid = props => {
 Grid.propTypes = {
   mode: PropTypes.object.isRequired,
   grid: PropTypes.array.isRequired,
-  grid_header: PropTypes.array.isRequired,
+  gridHeader: PropTypes.array.isRequired,
   paintBrush: PropTypes.func.isRequired,
   paintRoller: PropTypes.func.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,

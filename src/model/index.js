@@ -1,4 +1,12 @@
-const COLORS = {
+import {
+  createGrid,
+  createGridHeader
+} from '../helpers';
+
+const DEFAULT_ROWS = 20;
+const DEFAULT_COLS = 20;
+
+export const COLORS = {
   '#ffc0cb': [],
   '#ff0000': [],
   '#dc143c': [],
@@ -49,4 +57,17 @@ const COLORS = {
   '#000000': []
 };
 
-export default COLORS;
+export const initialState = {
+  gridHeader: createGridHeader(DEFAULT_COLS),
+  grid: createGrid(DEFAULT_ROWS, DEFAULT_COLS),
+  activeColor: '#000000',
+  cols: DEFAULT_COLS,
+  rows: DEFAULT_ROWS,
+  colors: COLORS,
+  html2canvasIgnore: true,
+  zoom: 1,
+  mode: {
+    paintBrush: { enabled: true },
+    paintRoller: { enabled: false, started: false }
+  }
+};

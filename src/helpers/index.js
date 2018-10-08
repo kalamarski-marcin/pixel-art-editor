@@ -40,7 +40,7 @@ export const fillCell = (state, row, col) => {
 
   let grid = R.clone(state.grid);
   let colors = R.clone(state.colors);
-  let letters = state.grid_header;
+  let letters = state.gridHeader;
   let activeColor = state.activeColor;
   let cellValue = grid[row][col];
   let color;

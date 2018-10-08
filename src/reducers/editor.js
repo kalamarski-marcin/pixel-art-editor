@@ -1,11 +1,12 @@
 import ActionTypes from '../constants';
-import COLORS from '../model/colors';
 import {
   createGridHeader,
   createGrid,
   fillCell,
   rebuildCoordinates,
 } from '../helpers';
+
+import { initialState, COLORS } from '../model'
 
 const R = require('ramda');
 
@@ -23,24 +24,6 @@ const {
   PAINT_BRUSH,
   PAINT_ROLLER
 } = ActionTypes;
-
-const DEFAULT_ROWS = 20;
-const DEFAULT_COLS = 20;
-
-const initialState = {
-  grid_header: createGridHeader(DEFAULT_COLS),
-  grid: createGrid(DEFAULT_ROWS, DEFAULT_COLS),
-  activeColor: '#000000',
-  cols: DEFAULT_COLS,
-  rows: DEFAULT_ROWS,
-  colors: COLORS,
-  html2canvasIgnore: true,
-  zoom: 1,
-  mode: {
-    paintBrush: { enabled: true },
-    paintRoller: { enabled: false, started: false }
-  }
-};
 
 function editor(state = initialState, action) {
   switch (action.type) {
@@ -114,13 +97,13 @@ function editor(state = initialState, action) {
           : row.slice(0, cols);
       });
 
-      let grid_header = createGridHeader(cols);
+      let gridHeader = createGridHeader(cols);
 
       if (R.lt(cols, currentCols)) {
-        colors = R.merge(COLORS, rebuildCoordinates(grid, state.grid_header));
+        colors = R.merge(COLORS, rebuildCoordinates(grid, state.gridHeader));
       }
 
-      return { ...state, cols, grid, grid_header, colors: colors };
+      return { ...state, cols, grid, gridHeader, colors: colors };
     }
     case RESIZE_ROWS: {
       let rows = parseInt(action.rows, 10);
@@ -135,7 +118,7 @@ function editor(state = initialState, action) {
 
 
       if (R.lt(rows, currentRows)) {
-        colors = R.merge(COLORS, rebuildCoordinates(grid, state.grid_header));
+        colors = R.merge(COLORS, rebuildCoordinates(grid, state.gridHeader));
       }
 
       return { ...state, rows, grid, colors: colors };

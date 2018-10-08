@@ -34,7 +34,7 @@ class EditorContainer extends Component {
       <Grid
         html2canvasIgnore={this.props.html2canvasIgnore}
         zoom={this.props.zoom}
-        grid_header={this.props.grid_header}
+        gridHeader={this.props.gridHeader}
         grid={this.props.grid}
         paintBrush={this.handlePaintBrush}
         paintRoller={this.handlePaintRoller}
@@ -54,7 +54,7 @@ EditorContainer.propTypes = {
   paintRoller: PropTypes.func.isRequired,
   grid: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
-  grid_header: PropTypes.array.isRequired,
+  gridHeader: PropTypes.array.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired
 }
 
@@ -69,7 +69,7 @@ const mapStateToProps = (state) => ({
   mode: state.editor.mode,
   grid: state.editor.grid,
   zoom: state.editor.zoom,
-  grid_header: state.editor.grid_header,
+  gridHeader: state.editor.gridHeader,
   html2canvasIgnore: state.editor.html2canvasIgnore
 });
 
