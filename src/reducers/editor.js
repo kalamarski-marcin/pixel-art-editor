@@ -1,4 +1,12 @@
 import ActionTypes from '../constants';
+import COLORS from '../model/colors';
+import {
+  createGridHeader,
+  createGrid,
+  fillCell,
+  rebuildCoordinates,
+} from '../helpers';
+
 const R = require('ramda');
 
 const {
@@ -19,91 +27,6 @@ const {
 const DEFAULT_ROWS = 20;
 const DEFAULT_COLS = 20;
 
-const COLORS = {
-  '#ffc0cb': [],
-  '#ff0000': [],
-  '#dc143c': [],
-  '#800000': [],
-  '#ffdead': [],
-  '#ff8c00': [],
-  '#ffa500': [],
-  '#ff4500': [],
-  '#daa520': [],
-  '#d2691e': [],
-  '#a0522d': [],
-  '#8b4513': [],
-  '#ffffe0': [],
-  '#ffd700': [],
-  '#ffff00': [],
-  '#808000': [],
-  '#90ee90': [],
-  '#00ff00': [],
-  '#008000': [],
-  '#006400': [],
-  '#e0ffff': [],
-  '#40e0d0': [],
-  '#008080': [],
-  '#2f4f4f': [],
-  '#f0f8ff': [],
-  '#87cefa': [],
-  '#1e90ff': [],
-  '#4682b4': [],
-  '#e6e6fa': [],
-  '#483d8b': [],
-  '#0000ff': [],
-  '#00008b': [],
-  '#9370db': [],
-  '#8a2be2': [],
-  '#9400d3': [],
-  '#4b0082': [],
-  '#dda0dd': [],
-  '#ee82ee': [],
-  '#ff00ff': [],
-  '#800080': [],
-  '#fff0f5': [],
-  '#ff69b4': [],
-  '#ff1493': [],
-  '#c71585': [],
-  '#f5f5f5': [],
-  '#d3d3d3': [],
-  '#808080': [],
-  '#000000': []
-};
-
-const charGenerator = function* (charAt = 65) {
-  while (true) {
-    yield String.fromCharCode(charAt++);
-  }
-};
-
-const createGridHeader = (cols) => {
-  let gen = charGenerator();
-  return Array.from(new Array(cols), () => null).map(() => gen.next().value);
-}
-
-const createGrid = (rows, cols) => {
-  const cells = () => Array.from(new Array(cols), () => null);
-  return Array.from(new Array(rows), cells);
-};
-
-const sortCooridinates = (a, b) => a.localeCompare(b, 'en', { numeric: true });
-
-const rebuildCoordinates = (grid, letters) => {
-  let legend = {};
-  for (let [y, row] of grid.entries()) {
-    for (let [x, color] of row.entries()) {
-      if (R.isNil(color)) continue;
-
-      legend[color] = R.sort(
-        sortCooridinates,
-        R.append(`${letters[x]}${y + 1}`, legend[color])
-      );
-    }
-  }
-
-  return legend;
-}
-
 const initialState = {
   grid_header: createGridHeader(DEFAULT_COLS),
   grid: createGrid(DEFAULT_ROWS, DEFAULT_COLS),
@@ -118,41 +41,6 @@ const initialState = {
     paintRoller: { enabled: false, started: false }
   }
 };
-
-const fillCell = (state, row, col) => {
-  row = parseInt(row, 10);
-  col = parseInt(col, 10);
-
-  let grid = R.clone(state.grid);
-  let colors = R.clone(state.colors);
-  let letters = state.grid_header;
-  let activeColor = state.activeColor;
-  let cellValue = grid[row][col];
-  let color;
-
-  if (state.mode.paintRoller.enabled) {
-    color = activeColor;
-  } else {
-    color = cellValue
-      ? R.equals(cellValue, activeColor) ? null : activeColor
-      : activeColor;
-  }
-  grid[row][col] = color;
-
-  let coordinate = `${letters[row]}${col + 1}`;
-  if (R.isNil(color)) {
-    colors[activeColor] = colors[activeColor].filter(i => i != coordinate);
-  }
-  else {
-    if (!R.isNil(cellValue)) colors[cellValue] = colors[cellValue].filter(i => i != coordinate);
-
-    colors[activeColor].push(coordinate);
-  }
-
-  colors[activeColor] = R.sort(sortCooridinates, colors[activeColor]);
-
-  return { ...state, grid, colors }
-}
 
 function editor(state = initialState, action) {
   switch (action.type) {
