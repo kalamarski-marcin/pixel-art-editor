@@ -10,12 +10,10 @@ const renderRows = (props) => {
         key={`row-${index}`}
         row={index}
         cells={props.grid[index]}
-        fillSingleCell={props.fillSingleCell}
-        fillMultipleCells={props.fillMultipleCells}
         html2canvasIgnore={props.html2canvasIgnore}
         mode={props.mode}
-        startMultiFillingMode={props.startMultiFillingMode}
-        endMultiFillingMode={props.endMultiFillingMode}
+        onClick={props.onClick}
+        onMouseEnter={props.onMouseEnter}
       />
     );
   });
@@ -25,12 +23,8 @@ const Grid = props => {
   return (
     <div
       className="editor-grid"
-      style={{ zoom: 1 }}
       id="grid"
-      onMouseLeave={
-        props.mode.fillMultipleCells.enabled && props.mode.fillMultipleCells.started
-          ? props.endMultiFillingMode : () => { }
-      }
+      onMouseLeave={props.onMouseLeave}
     >
       <GridHeader gridHeader={props.gridHeader} />
       { renderRows(props) }
@@ -42,11 +36,10 @@ Grid.propTypes = {
   mode: PropTypes.object.isRequired,
   grid: PropTypes.array.isRequired,
   gridHeader: PropTypes.array.isRequired,
-  fillSingleCell: PropTypes.func.isRequired,
-  fillMultipleCells: PropTypes.func.isRequired,
-  html2canvasIgnore: PropTypes.bool.isRequired,
-  startMultiFillingMode: PropTypes.func.isRequired,
-  endMultiFillingMode: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
+  html2canvasIgnore: PropTypes.bool.isRequired
 };
 
 export default Grid;

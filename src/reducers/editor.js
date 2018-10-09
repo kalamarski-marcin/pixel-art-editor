@@ -21,8 +21,7 @@ const {
   ENABLE_MULTI_FILLING_MODE,
   START_MULTI_FILLING_MODE,
   END_MULTI_FILLING_MODE,
-  FILL_SINGLE_CELL,
-  FILL_MULTIPLE_CELLS
+  FILL_CELL,
 } = ActionTypes;
 
 function editor(state = initialState, action) {
@@ -76,10 +75,7 @@ function editor(state = initialState, action) {
         colors: COLORS
       }
     }
-    case FILL_SINGLE_CELL: {
-      return fillCell(state, action.row, action.col);
-    }
-    case FILL_MULTIPLE_CELLS: {
+    case FILL_CELL: {
       return fillCell(state, action.row, action.col);
     }
     case SET_ACTIVE_COLOR: {
@@ -144,12 +140,8 @@ export const setActiveColor = (activeColor) => (
   { type: SET_ACTIVE_COLOR, activeColor }
 )
 
-export const fillSingleCell = (row, col) => (
-  { type: FILL_SINGLE_CELL, row, col }
-)
-
-export const fillMultipleCells = (row, col) => (
-  { type: FILL_MULTIPLE_CELLS, row, col }
+export const fillCellAction = (row, col) => (
+  { type: FILL_CELL, row, col }
 )
 
 export const resizeCols = (cols) => (

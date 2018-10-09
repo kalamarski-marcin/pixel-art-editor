@@ -12,16 +12,14 @@ class Cell extends Component {
 
   render() {
     return (
-      <div
-        className="editor-grid__cell"
-      >
+      <div className="editor-grid__cell">
         <div
           className="editor-grid__cell--fill"
           { ...this.props.html2canvasIgnore && { 'data-html2canvas-ignore': '' } }
           data-row={this.props.row}
           data-col={this.props.col}
-          onClick={this.props.mode.fillSingleCell.enabled ? this.props.fillSingleCell : this.props.mode.fillMultipleCells.started ? this.props.endMultiFillingMode : () => this.props.startMultiFillingMode(this.props.row, this.props.col) }
-          onMouseEnter={this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started ? this.props.fillMultipleCells : () => { } }
+          onClick={this.props.onClick}
+          onMouseEnter={this.props.onMouseEnter}
           style={{ backgroundColor: this.props.backgroundColor }}
         />
       </div>
@@ -33,12 +31,10 @@ Cell.propTypes = {
   backgroundColor: PropTypes.string,
   row: PropTypes.number.isRequired,
   col: PropTypes.number.isRequired,
-  fillSingleCell: PropTypes.func.isRequired,
-  fillMultipleCells: PropTypes.func.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
-  startMultiFillingMode: PropTypes.func.isRequired,
-  endMultiFillingMode: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired
 };
 
 export default Cell;

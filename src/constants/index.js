@@ -11,8 +11,7 @@ let constants = {
   ENABLE_MULTI_FILLING_MODE: null,
   START_MULTI_FILLING_MODE: null,
   END_MULTI_FILLING_MODE: null,
-  FILL_SINGLE_CELL: null,
-  FILL_MULTIPLE_CELLS: null
+  FILL_CELL: null
 };
 
 const ActionTypes = keyMirror(constants);

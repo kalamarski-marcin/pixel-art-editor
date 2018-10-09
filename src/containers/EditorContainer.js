@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  fillSingleCell,
-  fillMultipleCells,
+  fillCellAction,
   startMultiFillingMode,
   endMultiFillingMode
 } from '../reducers/editor';
@@ -13,34 +12,51 @@ class EditorContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.handleFillSingleCell= this.handleFillSingleCell.bind(this);
-    this.handleFillMultipleCells = this.handleFillMultipleCells.bind(this);
+    this.handleOnClick= this.handleOnClick.bind(this);
+    this.handleOnMouseEnter = this.handleOnMouseEnter.bind(this);
+    this.handleOnMouseLeave = this.handleOnMouseLeave.bind(this);
   }
 
-  componentWillMount() {
-    this.setState({ loading: false });
+  handleOnClick(event) {
+    let row = event.target.dataset.row;
+    let col = event.target.dataset.col;
+
+    if (this.props.mode.fillSingleCell.enabled) {
+      this.props.fillCellAction(row, col);
+    } else {
+      if (this.props.mode.fillMultipleCells.started) {
+        this.props.endMultiFillingMode();
+      } else {
+        this.props.startMultiFillingMode(row, col);
+      }
+    }
   }
 
-  handleFillSingleCell(event) {
-    this.props.fillSingleCell(event.target.dataset.row, event.target.dataset.col);
+  handleOnMouseEnter(event) {
+    let row = event.target.dataset.row;
+    let col = event.target.dataset.col;
+
+    if (this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started) {
+      this.props.fillCellAction(row, col);
+    }
   }
 
-  handleFillMultipleCells(event) {
-    this.props.fillMultipleCells(event.target.dataset.row, event.target.dataset.col);
+  handleOnMouseLeave() {
+    if (this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started) {
+      this.props.endMultiFillingMode();
+    }
   }
 
   render() {
     return (
       <Grid
         html2canvasIgnore={this.props.html2canvasIgnore}
-        zoom={this.props.zoom}
         gridHeader={this.props.gridHeader}
         grid={this.props.grid}
-        fillSingleCell={this.handleFillSingleCell}
-        fillMultipleCells={this.handleFillMultipleCells}
         mode={this.props.mode}
-        startMultiFillingMode={this.props.startMultiFillingMode}
-        endMultiFillingMode={this.props.endMultiFillingMode}
+        onClick={this.handleOnClick}
+        onMouseEnter={this.handleOnMouseEnter}
+        onMouseLeave={this.handleOnMouseLeave}
       />
     );
   }
@@ -50,17 +66,14 @@ EditorContainer.propTypes = {
   mode: PropTypes.object.isRequired,
   startMultiFillingMode: PropTypes.func.isRequired,
   endMultiFillingMode: PropTypes.func.isRequired,
-  fillSingleCell: PropTypes.func.isRequired,
-  fillMultipleCells: PropTypes.func.isRequired,
+  fillCellAction: PropTypes.func.isRequired,
   grid: PropTypes.array.isRequired,
-  zoom: PropTypes.number.isRequired,
   gridHeader: PropTypes.array.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = {
-  fillSingleCell,
-  fillMultipleCells,
+  fillCellAction,
   startMultiFillingMode,
   endMultiFillingMode
 };

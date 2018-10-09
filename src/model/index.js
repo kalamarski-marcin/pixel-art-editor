@@ -65,7 +65,6 @@ export const initialState = {
   rows: DEFAULT_ROWS,
   colors: COLORS,
   html2canvasIgnore: true,
-  zoom: 1,
   mode: {
     fillSingleCell: { enabled: true },
     fillMultipleCells: { enabled: false, started: false },

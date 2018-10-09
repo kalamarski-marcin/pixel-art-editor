@@ -12,12 +12,10 @@ const renderCells = (props) => {
         row={props.row}
         col={index}
         backgroundColor={props.cells[index]}
-        fillSingleCell={props.fillSingleCell}
-        fillMultipleCells={props.fillMultipleCells}
+        onClick={props.onClick}
+        onMouseEnter={props.onMouseEnter}
         html2canvasIgnore={props.html2canvasIgnore}
         mode={props.mode}
-        startMultiFillingMode={props.startMultiFillingMode}
-        endMultiFillingMode={props.endMultiFillingMode}
       />
     );
   });
@@ -45,12 +43,10 @@ class Row extends Component {
 Row.propTypes = {
   row: PropTypes.number.isRequired,
   cells: PropTypes.array.isRequired,
-  fillSingleCell: PropTypes.func.isRequired,
-  fillMultipleCells: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,
-  mode: PropTypes.object.isRequired,
-  startMultiFillingMode: PropTypes.func.isRequired,
-  endMultiFillingMode: PropTypes.func.isRequired
+  mode: PropTypes.object.isRequired
 };
 
 export default Row;
