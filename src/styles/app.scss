@@ -37,6 +37,8 @@ html {
 
 #print-drawing-wrapper {
 	display: flex;
+	overflow: auto;
+	padding-bottom: 20px;
 }
 
 .flexbox-item.header {
@@ -129,8 +131,8 @@ html {
 .editor-color-picker__color {
 	margin: 4px;
 	display: flex;
-	width: 46px;
-	height: 46px;
+	width: 32px;
+	height: 32px;
 	border: 1px solid #fff;
 
 	&:hover {
@@ -281,5 +283,20 @@ html {
 		input[type="radio"] {
 			align-self: center;
 		}
+	}
+}
+
+.painting-mode-wrapper {
+	display: flex;
+	flex-direction: row;
+
+	.painting-mode {
+		border: 2px solid #eaeaea;
+		padding: 10px;
+		margin: 10px;
+	}
+
+	.painting-mode--active {
+		border-color: #000;
 	}
 }

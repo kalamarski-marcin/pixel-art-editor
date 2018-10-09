@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import Row from './Row';
 import GridHeader from './GridHeader';
 
-const renderRows = (grid, html2canvasIgnore, handleFillCell) => {
-  return grid.map((row, index) => {
+const renderRows = (props) => {
+  return props.grid.map((row, index) => {
     return (
       <Row
         key={`row-${index}`}
         row={index}
-        cells={grid[index]}
-        handleFillCell={handleFillCell}
-        html2canvasIgnore={html2canvasIgnore}
+        cells={props.grid[index]}
+        html2canvasIgnore={props.html2canvasIgnore}
+        mode={props.mode}
+        onClick={props.onClick}
+        onMouseEnter={props.onMouseEnter}
       />
     );
   });
@@ -19,17 +21,24 @@ const renderRows = (grid, html2canvasIgnore, handleFillCell) => {
 
 const Grid = props => {
   return (
-    <div className="editor-grid" style={{ zoom: 1 }} id="grid">
-      <GridHeader grid_header={props.grid_header} />
-      { renderRows(props.grid, props.html2canvasIgnore, props.handleFillCell) }
+    <div
+      className="editor-grid"
+      id="grid"
+      onMouseLeave={props.onMouseLeave}
+    >
+      <GridHeader gridHeader={props.gridHeader} />
+      { renderRows(props) }
     </div>
   )
 };
 
 Grid.propTypes = {
+  mode: PropTypes.object.isRequired,
   grid: PropTypes.array.isRequired,
-  grid_header: PropTypes.array.isRequired,
-  handleFillCell: PropTypes.func.isRequired,
+  gridHeader: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired
 };
 

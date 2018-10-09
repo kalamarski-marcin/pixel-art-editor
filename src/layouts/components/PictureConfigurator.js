@@ -3,6 +3,7 @@ import ColumnInputRangeContainer from '../../containers/ColumnsInputRangeContain
 import RowsInputRangeContainer from '../../containers/RowsInputRangeContainer';
 import ColorPickerContainer from '../../containers/ColorPickerContainer';
 import PrintingOptionsContainer from '../../containers/PrintingOptionsContainer';
+import PaintingModeContainer from '../../containers/PaintingModeContainer';
 import ResetButton from '../../components/ResetButton';
 import ClearButton from '../../components/ClearButton';
 import PrintButton from '../../components/PrintButton';
@@ -13,6 +14,7 @@ const PictureConfigurator = () => (
       <ColumnInputRangeContainer />
       <RowsInputRangeContainer />
     </div>
+    <PaintingModeContainer />
     <ColorPickerContainer />
     <div>
       <PrintingOptionsContainer />

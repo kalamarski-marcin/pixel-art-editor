@@ -4,10 +4,14 @@ let constants = {
   SET_ACTIVE_COLOR: null,
   RESIZE_ROWS: null,
   RESIZE_COLS: null,
-  FILL_CELL: null,
   RESET_EDITOR: null,
   CLEAR_EDITOR: null,
-  SET_HTML2CANVAS_IGNORE: null
+  SET_HTML2CANVAS_IGNORE: null,
+  ENABLE_SINGLE_FILLING_MODE: null,
+  ENABLE_MULTI_FILLING_MODE: null,
+  START_MULTI_FILLING_MODE: null,
+  END_MULTI_FILLING_MODE: null,
+  FILL_CELL: null
 };
 
 const ActionTypes = keyMirror(constants);

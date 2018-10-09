@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import {setActiveColor} from '../reducers/editor';
 import ColorPicker from '../components/ColorPicker';
 
+const R = require('ramda');
+
 class ColorPickerContainer extends Component {
   constructor (props){
     super(props);
@@ -37,7 +39,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
-  colors: state.editor.colors,
+  colors: R.keys(state.editor.colors),
   activeColor: state.editor.activeColor
 });
 

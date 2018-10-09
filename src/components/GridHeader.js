@@ -11,27 +11,27 @@ HeaderCell.propTypes = {
   letter: PropTypes.string
 };
 
-const renderCells = (grid_header) => grid_header.map(
+const renderCells = (gridHeader) => gridHeader.map(
   (char, i) => <HeaderCell key={`header-cell-${i}`} letter={char} />
 );
 
 class GridHeader extends Component {
   shouldComponentUpdate(nextProps) {
-    return this.props.grid_header !== nextProps.grid_header;
+    return this.props.gridHeader !== nextProps.gridHeader;
   }
 
   render() {
     return (
       <div className="editor-grid__row">
         <div className="editor-grid__cell editor-grid__cell--header" />
-        { renderCells(this.props.grid_header) }
+        { renderCells(this.props.gridHeader) }
       </div>
     )
   }
 }
 
 GridHeader.propTypes = {
-  grid_header: PropTypes.array.isRequired
+  gridHeader: PropTypes.array.isRequired
 };
 
 export default GridHeader;

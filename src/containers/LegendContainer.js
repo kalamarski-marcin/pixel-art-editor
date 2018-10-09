@@ -13,7 +13,7 @@ LegendContainer.propTypes = {
 const mapDispatchToProps = {};
 
 const mapStateToProps = (state) => ({
-  legend: state.editor.legend,
+  legend: state.editor.colors,
   html2canvasIgnore: state.editor.html2canvasIgnore
 });
 
