@@ -20,8 +20,8 @@ class Cell extends Component {
           { ...this.props.html2canvasIgnore && { 'data-html2canvas-ignore': '' } }
           data-row={this.props.row}
           data-col={this.props.col}
-          onClick={this.props.mode.paintBrush.enabled ? this.props.paintBrush : this.props.mode.paintRoller.started ? this.props.endPaintRollerMode : () => this.props.startPaintRollerMode(this.props.row, this.props.col) }
-          onMouseEnter={this.props.mode.paintRoller.enabled && this.props.mode.paintRoller.started ? this.props.paintRoller : () => { } }
+          onClick={this.props.mode.fillSingleCell.enabled ? this.props.fillSingleCell : this.props.mode.fillMultipleCells.started ? this.props.endMultiFillingMode : () => this.props.startMultiFillingMode(this.props.row, this.props.col) }
+          onMouseEnter={this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started ? this.props.fillMultipleCells : () => { } }
           style={{ backgroundColor: this.props.backgroundColor }}
         />
       </div>
@@ -33,12 +33,12 @@ Cell.propTypes = {
   backgroundColor: PropTypes.string,
   row: PropTypes.number.isRequired,
   col: PropTypes.number.isRequired,
-  paintBrush: PropTypes.func.isRequired,
-  paintRoller: PropTypes.func.isRequired,
+  fillSingleCell: PropTypes.func.isRequired,
+  fillMultipleCells: PropTypes.func.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
-  startPaintRollerMode: PropTypes.func.isRequired,
-  endPaintRollerMode: PropTypes.func.isRequired
+  startMultiFillingMode: PropTypes.func.isRequired,
+  endMultiFillingMode: PropTypes.func.isRequired
 };
 
 export default Cell;

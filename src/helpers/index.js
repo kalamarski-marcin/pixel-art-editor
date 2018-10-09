@@ -45,7 +45,7 @@ export const fillCell = (state, row, col) => {
   let cellValue = grid[row][col];
   let color;
 
-  if (state.mode.paintRoller.enabled) {
+  if (state.mode.fillMultipleCells.enabled) {
     color = activeColor;
   } else {
     color = cellValue

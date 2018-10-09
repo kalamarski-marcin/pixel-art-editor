@@ -1,7 +1,10 @@
 import React, { Component  } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { enablePaintBrushMode, enablePaintRollerMode } from '../reducers/editor';
+import {
+  enableSingleFillingMode,
+  enableMultiFillingMode
+} from '../reducers/editor';
 import PaintingMode from '../components/PaintingMode';
 
 class PaintingModeContainer extends Component {
@@ -13,8 +16,8 @@ class PaintingModeContainer extends Component {
     return (
       <PaintingMode
         mode={this.props.mode}
-        enablePaintBrushMode={this.props.enablePaintBrushMode}
-        enablePaintRollerMode={this.props.enablePaintRollerMode}
+        enableSingleFillingMode={this.props.enableSingleFillingMode}
+        enableMultiFillingMode={this.props.enableMultiFillingMode}
       />
     );
   }
@@ -22,13 +25,13 @@ class PaintingModeContainer extends Component {
 
 PaintingModeContainer.propTypes = {
   mode: PropTypes.object.isRequired,
-  enablePaintBrushMode: PropTypes.func.isRequired,
-  enablePaintRollerMode: PropTypes.func.isRequired
+  enableSingleFillingMode: PropTypes.func.isRequired,
+  enableMultiFillingMode: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
-  enablePaintBrushMode,
-  enablePaintRollerMode
+  enableSingleFillingMode,
+  enableMultiFillingMode
 };
 
 const mapStateToProps = (state) => ({

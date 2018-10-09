@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  paintBrush,
-  paintRoller,
-  startPaintRollerMode,
-  endPaintRollerMode
+  fillSingleCell,
+  fillMultipleCells,
+  startMultiFillingMode,
+  endMultiFillingMode
 } from '../reducers/editor';
 import Grid from '../components/Grid';
 
@@ -13,20 +13,20 @@ class EditorContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.handlePaintBrush = this.handlePaintBrush.bind(this);
-    this.handlePaintRoller = this.handlePaintRoller.bind(this);
+    this.handleFillSingleCell= this.handleFillSingleCell.bind(this);
+    this.handleFillMultipleCells = this.handleFillMultipleCells.bind(this);
   }
 
   componentWillMount() {
     this.setState({ loading: false });
   }
 
-  handlePaintBrush(event) {
-    this.props.paintBrush(event.target.dataset.row, event.target.dataset.col);
+  handleFillSingleCell(event) {
+    this.props.fillSingleCell(event.target.dataset.row, event.target.dataset.col);
   }
 
-  handlePaintRoller(event) {
-    this.props.paintRoller(event.target.dataset.row, event.target.dataset.col);
+  handleFillMultipleCells(event) {
+    this.props.fillMultipleCells(event.target.dataset.row, event.target.dataset.col);
   }
 
   render() {
@@ -36,11 +36,11 @@ class EditorContainer extends Component {
         zoom={this.props.zoom}
         gridHeader={this.props.gridHeader}
         grid={this.props.grid}
-        paintBrush={this.handlePaintBrush}
-        paintRoller={this.handlePaintRoller}
+        fillSingleCell={this.handleFillSingleCell}
+        fillMultipleCells={this.handleFillMultipleCells}
         mode={this.props.mode}
-        startPaintRollerMode={this.props.startPaintRollerMode}
-        endPaintRollerMode={this.props.endPaintRollerMode}
+        startMultiFillingMode={this.props.startMultiFillingMode}
+        endMultiFillingMode={this.props.endMultiFillingMode}
       />
     );
   }
@@ -48,10 +48,10 @@ class EditorContainer extends Component {
 
 EditorContainer.propTypes = {
   mode: PropTypes.object.isRequired,
-  startPaintRollerMode: PropTypes.func.isRequired,
-  endPaintRollerMode: PropTypes.func.isRequired,
-  paintBrush: PropTypes.func.isRequired,
-  paintRoller: PropTypes.func.isRequired,
+  startMultiFillingMode: PropTypes.func.isRequired,
+  endMultiFillingMode: PropTypes.func.isRequired,
+  fillSingleCell: PropTypes.func.isRequired,
+  fillMultipleCells: PropTypes.func.isRequired,
   grid: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
   gridHeader: PropTypes.array.isRequired,
@@ -59,10 +59,10 @@ EditorContainer.propTypes = {
 }
 
 const mapDispatchToProps = {
-  paintBrush,
-  paintRoller,
-  startPaintRollerMode,
-  endPaintRollerMode
+  fillSingleCell,
+  fillMultipleCells,
+  startMultiFillingMode,
+  endMultiFillingMode
 };
 
 const mapStateToProps = (state) => ({

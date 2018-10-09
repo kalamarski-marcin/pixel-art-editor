@@ -17,46 +17,46 @@ const {
   CLEAR_EDITOR,
   RESET_EDITOR,
   SET_HTML2CANVAS_IGNORE,
-  ENABLE_PAINT_BRUSH_MODE,
-  ENABLE_PAINT_ROLLER_MODE,
-  START_PAINT_ROLLER_MODE,
-  END_PAINT_ROLLER_MODE,
-  PAINT_BRUSH,
-  PAINT_ROLLER
+  ENABLE_SINGLE_FILLING_MODE,
+  ENABLE_MULTI_FILLING_MODE,
+  START_MULTI_FILLING_MODE,
+  END_MULTI_FILLING_MODE,
+  FILL_SINGLE_CELL,
+  FILL_MULTIPLE_CELLS
 } = ActionTypes;
 
 function editor(state = initialState, action) {
   switch (action.type) {
-    case START_PAINT_ROLLER_MODE: {
+    case START_MULTI_FILLING_MODE: {
       let mode = R.clone(state.mode);
 
-      mode.paintRoller.started = true;
+      mode.fillMultipleCells.started = true;
 
       let newState = fillCell(state, action.row, action.col);
 
       return { ...newState, mode }
     }
-    case END_PAINT_ROLLER_MODE: {
+    case END_MULTI_FILLING_MODE: {
       let mode = R.clone(state.mode);
 
-      mode.paintRoller.started = false;
+      mode.fillMultipleCells.started = false;
 
       return { ...state, mode }
     }
-    case ENABLE_PAINT_BRUSH_MODE: {
+    case ENABLE_SINGLE_FILLING_MODE: {
       let mode = R.clone(state.mode);
 
-      mode.paintBrush.enabled = true;
-      mode.paintRoller.enabled = false;
-      mode.paintRoller.started = false;
+      mode.fillSingleCell.enabled = true;
+      mode.fillMultipleCells.enabled = false;
+      mode.fillMultipleCells.started = false;
 
       return { ...state, mode }
     }
-    case ENABLE_PAINT_ROLLER_MODE: {
+    case ENABLE_MULTI_FILLING_MODE: {
       let mode = R.clone(state.mode);
 
-      mode.paintBrush.enabled = false;
-      mode.paintRoller.enabled = true;
+      mode.fillSingleCell.enabled = false;
+      mode.fillMultipleCells.enabled = true;
 
       return { ...state, mode }
     }
@@ -76,10 +76,10 @@ function editor(state = initialState, action) {
         colors: COLORS
       }
     }
-    case PAINT_BRUSH: {
+    case FILL_SINGLE_CELL: {
       return fillCell(state, action.row, action.col);
     }
-    case PAINT_ROLLER: {
+    case FILL_MULTIPLE_CELLS: {
       return fillCell(state, action.row, action.col);
     }
     case SET_ACTIVE_COLOR: {
@@ -144,12 +144,12 @@ export const setActiveColor = (activeColor) => (
   { type: SET_ACTIVE_COLOR, activeColor }
 )
 
-export const paintBrush = (row, col) => (
-  { type: PAINT_BRUSH, row, col }
+export const fillSingleCell = (row, col) => (
+  { type: FILL_SINGLE_CELL, row, col }
 )
 
-export const paintRoller = (row, col) => (
-  { type: PAINT_ROLLER, row, col }
+export const fillMultipleCells = (row, col) => (
+  { type: FILL_MULTIPLE_CELLS, row, col }
 )
 
 export const resizeCols = (cols) => (
@@ -160,20 +160,20 @@ export const resizeRows = (rows) => (
   { type: RESIZE_ROWS, rows }
 )
 
-export const enablePaintBrushMode = () => (
-  { type: ENABLE_PAINT_BRUSH_MODE }
+export const enableSingleFillingMode = () => (
+  { type: ENABLE_SINGLE_FILLING_MODE }
 )
 
-export const enablePaintRollerMode = () => (
-  { type: ENABLE_PAINT_ROLLER_MODE }
+export const enableMultiFillingMode = () => (
+  { type: ENABLE_MULTI_FILLING_MODE }
 )
 
-export const startPaintRollerMode = (row, col) => (
-  { type: START_PAINT_ROLLER_MODE, row, col }
+export const startMultiFillingMode = (row, col) => (
+  { type: START_MULTI_FILLING_MODE, row, col }
 )
 
-export const endPaintRollerMode = () => {
-  return { type: END_PAINT_ROLLER_MODE }
+export const endMultiFillingMode = () => {
+  return { type: END_MULTI_FILLING_MODE }
 }
 
 export default editor;

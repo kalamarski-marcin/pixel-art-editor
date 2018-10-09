@@ -67,7 +67,8 @@ export const initialState = {
   html2canvasIgnore: true,
   zoom: 1,
   mode: {
-    paintBrush: { enabled: true },
-    paintRoller: { enabled: false, started: false }
+    fillSingleCell: { enabled: true },
+    fillMultipleCells: { enabled: false, started: false },
+    eraseCell: { enabled: false }
   }
 };
