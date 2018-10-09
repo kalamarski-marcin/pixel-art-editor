@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import {
   fillCellAction,
   startMultiFillingMode,
-  endMultiFillingMode
+  endMultiFillingMode,
+  startEraseMode,
+  endEraseMode
 } from '../reducers/editor';
 import Grid from '../components/Grid';
 
@@ -26,8 +28,16 @@ class EditorContainer extends Component {
     } else {
       if (this.props.mode.fillMultipleCells.started) {
         this.props.endMultiFillingMode();
+      }
+      else if (this.props.mode.erase.started) {
+        this.props.endEraseMode();
       } else {
-        this.props.startMultiFillingMode(row, col);
+        if (this.props.mode.fillMultipleCells.enabled) {
+          this.props.startMultiFillingMode(row, col);
+        }
+        if (this.props.mode.erase.enabled) {
+          this.props.startEraseMode(row, col);
+        }
       }
     }
   }
@@ -39,11 +49,17 @@ class EditorContainer extends Component {
     if (this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started) {
       this.props.fillCellAction(row, col);
     }
+    if (this.props.mode.erase.enabled && this.props.mode.erase.started) {
+      this.props.fillCellAction(row, col);
+    }
   }
 
   handleOnMouseLeave() {
     if (this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started) {
       this.props.endMultiFillingMode();
+    }
+    if (this.props.mode.erase.enabled && this.props.mode.erase.started) {
+      this.props.endEraseMode();
     }
   }
 
@@ -69,13 +85,18 @@ EditorContainer.propTypes = {
   fillCellAction: PropTypes.func.isRequired,
   grid: PropTypes.array.isRequired,
   gridHeader: PropTypes.array.isRequired,
-  html2canvasIgnore: PropTypes.bool.isRequired
+  html2canvasIgnore: PropTypes.bool.isRequired,
+  activeColor: PropTypes.string.isRequired,
+  startEraseMode: PropTypes.func.isRequired,
+  endEraseMode: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
   fillCellAction,
   startMultiFillingMode,
-  endMultiFillingMode
+  endMultiFillingMode,
+  startEraseMode,
+  endEraseMode
 };
 
 const mapStateToProps = (state) => ({
@@ -83,7 +104,8 @@ const mapStateToProps = (state) => ({
   grid: state.editor.grid,
   zoom: state.editor.zoom,
   gridHeader: state.editor.gridHeader,
-  html2canvasIgnore: state.editor.html2canvasIgnore
+  html2canvasIgnore: state.editor.html2canvasIgnore,
+  activeColor: state.editor.activeColor
 });
 
 export default connect(

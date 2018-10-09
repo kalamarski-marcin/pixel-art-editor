@@ -47,6 +47,9 @@ export const fillCell = (state, row, col) => {
 
   if (state.mode.fillMultipleCells.enabled) {
     color = activeColor;
+  }
+  else if (state.mode.erase.enabled) {
+    color = null;
   } else {
     color = cellValue
       ? R.equals(cellValue, activeColor) ? null : activeColor

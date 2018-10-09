@@ -15,13 +15,20 @@ const PaintingMode = props => (
     >
       <i className="fas fa-paint-roller fa-2x"></i>
     </div>
+    <div
+      onClick={() => props.enableEraseMode()}
+      className={`painting-mode ${props.mode.erase.enabled ? 'painting-mode--active' : ''}`}
+    >
+      <i className="fas fa-eraser fa-2x"></i>
+    </div>
   </div>
 );
 
 PaintingMode.propTypes = {
   mode: PropTypes.object.isRequired,
   enableSingleFillingMode: PropTypes.func.isRequired,
-  enableMultiFillingMode: PropTypes.func.isRequired
+  enableMultiFillingMode: PropTypes.func.isRequired,
+  enableEraseMode: PropTypes.func.isRequired
 };
 
 export default PaintingMode;

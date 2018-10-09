@@ -1,37 +1,28 @@
-import React, { Component  } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   enableSingleFillingMode,
-  enableMultiFillingMode
+  enableMultiFillingMode,
+  enableEraseMode
 } from '../reducers/editor';
 import PaintingMode from '../components/PaintingMode';
 
-class PaintingModeContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <PaintingMode
-        mode={this.props.mode}
-        enableSingleFillingMode={this.props.enableSingleFillingMode}
-        enableMultiFillingMode={this.props.enableMultiFillingMode}
-      />
-    );
-  }
-}
+const PaintingModeContainer = props => (
+  <PaintingMode { ...props } />
+);
 
 PaintingModeContainer.propTypes = {
   mode: PropTypes.object.isRequired,
   enableSingleFillingMode: PropTypes.func.isRequired,
-  enableMultiFillingMode: PropTypes.func.isRequired
+  enableMultiFillingMode: PropTypes.func.isRequired,
+  enableEraseMode: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
   enableSingleFillingMode,
-  enableMultiFillingMode
+  enableMultiFillingMode,
+  enableEraseMode
 };
 
 const mapStateToProps = (state) => ({

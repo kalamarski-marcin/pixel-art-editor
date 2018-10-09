@@ -22,10 +22,40 @@ const {
   START_MULTI_FILLING_MODE,
   END_MULTI_FILLING_MODE,
   FILL_CELL,
+  ENABLE_ERASE_MODE,
+  START_ERASE_MODE,
+  END_ERASE_MODE
 } = ActionTypes;
 
 function editor(state = initialState, action) {
   switch (action.type) {
+    case ENABLE_ERASE_MODE: {
+      let mode = R.clone(state.mode);
+
+      mode.fillSingleCell.enabled = false;
+      mode.fillMultipleCells.enabled = false;
+      mode.fillMultipleCells.started = false;
+      mode.erase.enabled = true;
+      mode.erase.started = false;
+
+      return { ...state, mode }
+    }
+    case START_ERASE_MODE: {
+      let mode = R.clone(state.mode);
+
+      mode.erase.started = true;
+
+      let newState = fillCell(state, action.row, action.col);
+
+      return { ...newState, mode }
+    }
+    case END_ERASE_MODE: {
+      let mode = R.clone(state.mode);
+
+      mode.erase.started = false;
+
+      return { ...state, mode }
+    }
     case START_MULTI_FILLING_MODE: {
       let mode = R.clone(state.mode);
 
@@ -48,6 +78,8 @@ function editor(state = initialState, action) {
       mode.fillSingleCell.enabled = true;
       mode.fillMultipleCells.enabled = false;
       mode.fillMultipleCells.started = false;
+      mode.erase.enabled = false;
+      mode.erase.started = false;
 
       return { ...state, mode }
     }
@@ -56,6 +88,9 @@ function editor(state = initialState, action) {
 
       mode.fillSingleCell.enabled = false;
       mode.fillMultipleCells.enabled = true;
+      mode.fillMultipleCells.started = false;
+      mode.erase.enabled = false;
+      mode.erase.started = false;
 
       return { ...state, mode }
     }
@@ -160,6 +195,10 @@ export const enableMultiFillingMode = () => (
   { type: ENABLE_MULTI_FILLING_MODE }
 )
 
+export const enableEraseMode = () => (
+  { type: ENABLE_ERASE_MODE }
+)
+
 export const startMultiFillingMode = (row, col) => (
   { type: START_MULTI_FILLING_MODE, row, col }
 )
@@ -167,5 +206,14 @@ export const startMultiFillingMode = (row, col) => (
 export const endMultiFillingMode = () => {
   return { type: END_MULTI_FILLING_MODE }
 }
+
+export const startEraseMode = (row, col) => (
+  { type: START_ERASE_MODE, row, col }
+)
+
+export const endEraseMode = () => {
+  return { type: END_ERASE_MODE }
+}
+
 
 export default editor;
