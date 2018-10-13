@@ -35,39 +35,62 @@ export const rebuildCoordinates = (grid, letters) => {
 }
 
 export const fillCell = (state, row, col) => {
-  row = parseInt(row, 10);
-  col = parseInt(col, 10);
-
-  let grid = R.clone(state.grid);
-  let colors = R.clone(state.colors);
-  let letters = state.gridHeader;
-  let activeColor = state.activeColor;
-  let cellValue = grid[row][col];
-  let color;
-
+  if (state.mode.fillSingleCell.enabled) {
+    return fillCellInSingleMode(state, row, col);
+  }
   if (state.mode.fillMultipleCells.enabled) {
-    color = activeColor;
+    return fillCellInMultipleMode(state, row, col);
   }
-  else if (state.mode.erase.enabled) {
-    color = null;
-  } else {
-    color = cellValue
-      ? R.equals(cellValue, activeColor) ? null : activeColor
+  if (state.mode.erase.enabled) {
+    return fillCellInEraseMode(state, row, col);
+  }
+}
+
+export const updateColors = (colors, oldCellValue, newCellValue, coordinate) => {
+  if (newCellValue) {
+    colors[newCellValue] = addCoordinateToColorContainer(
+      colors[newCellValue],
+      coordinate
+    );
+  }
+
+  if (oldCellValue && !R.equals(oldCellValue, newCellValue)) {
+    colors[oldCellValue] = colors[oldCellValue].filter(i => i !== coordinate);
+  }
+
+  return colors;
+}
+
+export const addCoordinateToColorContainer = (colorContainer, coordinate) => {
+  return R.sort(sortCooridinates, R.uniq(R.append(coordinate, colorContainer)));
+}
+
+const fillCellInMultipleMode = (state, row, col) => {
+  let grid = R.clone(state.grid);
+  grid[row][col] = state.activeColor;
+
+  return { ...state, grid }
+}
+
+const fillCellInSingleMode = (state, row, col) => {
+  let grid = R.clone(state.grid);
+  let activeColor = state.activeColor;
+  let currentCellValue = grid[row][col];
+
+  grid[row][col] = currentCellValue
+      ? R.equals(currentCellValue, activeColor) ? null : activeColor
       : activeColor;
-  }
-  grid[row][col] = color;
 
-  let coordinate = `${letters[row]}${col + 1}`;
-  if (R.isNil(color)) {
-    colors[activeColor] = colors[activeColor].filter(i => i != coordinate);
-  }
-  else {
-    if (!R.isNil(cellValue)) colors[cellValue] = colors[cellValue].filter(i => i != coordinate);
+  return { ...state, grid }
+}
 
-    colors[activeColor].push(coordinate);
-  }
+const fillCellInEraseMode = (state, row, col) => {
+  let grid = R.clone(state.grid);
+  grid[row][col] = null;
 
-  colors[activeColor] = R.sort(sortCooridinates, colors[activeColor]);
+  return { ...state, grid }
+}
 
-  return { ...state, grid, colors }
+export const buildCoordinate = (gridHeader, row, col) => {
+  return `${gridHeader[row]}${col + 1}`;
 }

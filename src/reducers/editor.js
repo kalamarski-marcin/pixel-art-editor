@@ -4,6 +4,8 @@ import {
   createGrid,
   fillCell,
   rebuildCoordinates,
+  buildCoordinate,
+  updateColors
 } from '../helpers';
 
 import { initialState, COLORS } from '../model'
@@ -29,133 +31,161 @@ const {
 
 function editor(state = initialState, action) {
   switch (action.type) {
-    case ENABLE_ERASE_MODE: {
-      let mode = R.clone(state.mode);
+  case ENABLE_ERASE_MODE: {
+    let mode = R.clone(state.mode);
 
-      mode.fillSingleCell.enabled = false;
-      mode.fillMultipleCells.enabled = false;
-      mode.fillMultipleCells.started = false;
-      mode.erase.enabled = true;
-      mode.erase.started = false;
+    mode.fillSingleCell.enabled = false;
+    mode.fillMultipleCells.enabled = false;
+    mode.fillMultipleCells.started = false;
+    mode.erase.enabled = true;
+    mode.erase.started = false;
 
-      return { ...state, mode }
+    return { ...state, mode }
+  }
+  case START_ERASE_MODE: {
+    let row = parseInt(action.row, 10);
+    let col = parseInt(action.col, 10);
+
+    let oldCellvalue = state.grid[row][col]
+    let mode = R.clone(state.mode);
+
+    mode.erase.started = true;
+
+    let newState = fillCell(state, row, col);
+
+    return { ...newState, mode, colors: updateColors(
+      R.clone(newState.colors),
+      state.grid[row][col],
+      newState.grid[row][col],
+      buildCoordinate(state.gridHeader, row, col)
+    )};
+  }
+  case END_ERASE_MODE: {
+    let mode = R.clone(state.mode);
+
+    mode.erase.started = false;
+
+    return { ...state, mode }
+  }
+  case START_MULTI_FILLING_MODE: {
+    let row = parseInt(action.row, 10);
+    let col = parseInt(action.col, 10);
+
+    let mode = R.clone(state.mode);
+    let oldCellvalue = state.grid[row][col]
+
+    mode.fillMultipleCells.started = true;
+
+    let newState = fillCell(state, row, col);
+
+    return { ...newState, mode, colors: updateColors(
+      R.clone(newState.colors),
+      state.grid[row][col],
+      newState.grid[row][col],
+      buildCoordinate(state.gridHeader, row, col)
+    )};
+  }
+  case END_MULTI_FILLING_MODE: {
+    let mode = R.clone(state.mode);
+
+    mode.fillMultipleCells.started = false;
+
+    return { ...state, mode }
+  }
+  case ENABLE_SINGLE_FILLING_MODE: {
+    let mode = R.clone(state.mode);
+
+    mode.fillSingleCell.enabled = true;
+    mode.fillMultipleCells.enabled = false;
+    mode.fillMultipleCells.started = false;
+    mode.erase.enabled = false;
+    mode.erase.started = false;
+
+    return { ...state, mode }
+  }
+  case ENABLE_MULTI_FILLING_MODE: {
+    let mode = R.clone(state.mode);
+
+    mode.fillSingleCell.enabled = false;
+    mode.fillMultipleCells.enabled = true;
+    mode.fillMultipleCells.started = false;
+    mode.erase.enabled = false;
+    mode.erase.started = false;
+
+    return { ...state, mode }
+  }
+  case SET_HTML2CANVAS_IGNORE: {
+    return {
+      ...state,
+      html2canvasIgnore: action.html2canvasIgnore
     }
-    case START_ERASE_MODE: {
-      let mode = R.clone(state.mode);
-
-      mode.erase.started = true;
-
-      let newState = fillCell(state, action.row, action.col);
-
-      return { ...newState, mode }
+  }
+  case RESET_EDITOR: {
+    return { ...initialState }
+  }
+  case CLEAR_EDITOR: {
+    return {
+      ...state,
+      grid: createGrid(state.rows, state.cols),
+      colors: COLORS
     }
-    case END_ERASE_MODE: {
-      let mode = R.clone(state.mode);
+  }
+  case FILL_CELL: {
+    let row = parseInt(action.row, 10);
+    let col = parseInt(action.col, 10);
 
-      mode.erase.started = false;
+    let newState = fillCell(state, row, col);
 
-      return { ...state, mode }
+    return { ...newState, colors: updateColors(
+      R.clone(newState.colors),
+      state.grid[row][col],
+      newState.grid[row][col],
+      buildCoordinate(state.gridHeader, row, col)
+    )};
+  }
+  case SET_ACTIVE_COLOR: {
+    return { ...state, activeColor: action.activeColor }
+  }
+  case RESIZE_COLS: {
+    let cols = parseInt(action.cols, 10);
+    let currentCols = state.cols;
+    let grid = R.clone(state.grid);
+    let colors = R.clone(state.colors);
+
+    grid = grid.map(row => {
+      return R.gt(cols, currentCols)
+        ? row.concat(Array.from(new Array(cols - currentCols), () => null))
+        : row.slice(0, cols);
+    });
+
+    let gridHeader = createGridHeader(cols);
+
+    if (R.lt(cols, currentCols)) {
+      colors = R.merge(COLORS, rebuildCoordinates(grid, state.gridHeader));
     }
-    case START_MULTI_FILLING_MODE: {
-      let mode = R.clone(state.mode);
 
-      mode.fillMultipleCells.started = true;
+    return { ...state, cols, grid, gridHeader, colors: colors };
+  }
+  case RESIZE_ROWS: {
+    let rows = parseInt(action.rows, 10);
+    let grid = R.clone(state.grid);
+    let cols = state.cols;
+    let currentRows = state.rows;
+    let colors = R.clone(state.colors);
 
-      let newState = fillCell(state, action.row, action.col);
+    grid = (R.gt(rows, currentRows))
+      ? grid.concat(createGrid((rows - currentRows), cols))
+      : grid.slice(0, rows);
 
-      return { ...newState, mode }
+
+    if (R.lt(rows, currentRows)) {
+      colors = R.merge(COLORS, rebuildCoordinates(grid, state.gridHeader));
     }
-    case END_MULTI_FILLING_MODE: {
-      let mode = R.clone(state.mode);
 
-      mode.fillMultipleCells.started = false;
-
-      return { ...state, mode }
-    }
-    case ENABLE_SINGLE_FILLING_MODE: {
-      let mode = R.clone(state.mode);
-
-      mode.fillSingleCell.enabled = true;
-      mode.fillMultipleCells.enabled = false;
-      mode.fillMultipleCells.started = false;
-      mode.erase.enabled = false;
-      mode.erase.started = false;
-
-      return { ...state, mode }
-    }
-    case ENABLE_MULTI_FILLING_MODE: {
-      let mode = R.clone(state.mode);
-
-      mode.fillSingleCell.enabled = false;
-      mode.fillMultipleCells.enabled = true;
-      mode.fillMultipleCells.started = false;
-      mode.erase.enabled = false;
-      mode.erase.started = false;
-
-      return { ...state, mode }
-    }
-    case SET_HTML2CANVAS_IGNORE: {
-      return {
-        ...state,
-        html2canvasIgnore: action.html2canvasIgnore
-      }
-    }
-    case RESET_EDITOR: {
-      return { ...initialState }
-    }
-    case CLEAR_EDITOR: {
-      return {
-        ...state,
-        grid: createGrid(state.rows, state.cols),
-        colors: COLORS
-      }
-    }
-    case FILL_CELL: {
-      return fillCell(state, action.row, action.col);
-    }
-    case SET_ACTIVE_COLOR: {
-      return { ...state, activeColor: action.activeColor }
-    }
-    case RESIZE_COLS: {
-      let cols = parseInt(action.cols, 10);
-      let currentCols = state.cols;
-      let grid = R.clone(state.grid);
-      let colors = R.clone(state.colors);
-
-      grid = grid.map(row => {
-        return R.gt(cols, currentCols)
-          ? row.concat(Array.from(new Array(cols - currentCols), () => null))
-          : row.slice(0, cols);
-      });
-
-      let gridHeader = createGridHeader(cols);
-
-      if (R.lt(cols, currentCols)) {
-        colors = R.merge(COLORS, rebuildCoordinates(grid, state.gridHeader));
-      }
-
-      return { ...state, cols, grid, gridHeader, colors: colors };
-    }
-    case RESIZE_ROWS: {
-      let rows = parseInt(action.rows, 10);
-      let grid = R.clone(state.grid);
-      let cols = state.cols;
-      let currentRows = state.rows;
-      let colors = R.clone(state.colors);
-
-      grid = (R.gt(rows, currentRows))
-        ? grid.concat(createGrid((rows - currentRows), cols))
-        : grid.slice(0, rows);
-
-
-      if (R.lt(rows, currentRows)) {
-        colors = R.merge(COLORS, rebuildCoordinates(grid, state.gridHeader));
-      }
-
-      return { ...state, rows, grid, colors: colors };
-    }
-    default:
-      return state;
+    return { ...state, rows, grid, colors: colors };
+  }
+  default:
+    return state;
   }
 }
 
