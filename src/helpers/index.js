@@ -85,6 +85,7 @@ const fillCellInSingleMode = (state, row, col) => {
 }
 
 const fillCellInEraseMode = (state, row, col) => {
+  console.log('ok')
   let grid = R.clone(state.grid);
   grid[row][col] = null;
 
@@ -92,5 +93,5 @@ const fillCellInEraseMode = (state, row, col) => {
 }
 
 export const buildCoordinate = (gridHeader, row, col) => {
-  return `${gridHeader[row]}${col + 1}`;
+  return `${gridHeader[col]}${row + 1}`;
 }
