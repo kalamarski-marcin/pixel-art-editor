@@ -85,7 +85,6 @@ const fillCellInSingleMode = (state, row, col) => {
 }
 
 const fillCellInEraseMode = (state, row, col) => {
-  console.log('ok')
   let grid = R.clone(state.grid);
   grid[row][col] = null;
 
