@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Main = ({children}) => (
+const Main = (props) => (
   <div className="flexbox-item flexbox-item-grow">
-    { children }
+    {props.children}
   </div>
 );
-
-Main.propTypes = {
-  children: PropTypes.object.isRequired
-}
 
 export default Main;

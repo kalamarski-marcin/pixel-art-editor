@@ -9,9 +9,16 @@ class LegendItem extends Component {
 
   render() {
     return (
-      <div className="legend-item-wrapper">
-        <span className="legend-item__color" style={{ backgroundColor: this.props.color }} />
-        <span className="legend-item__coords">{this.props.coordinates.join(', ')}</span>
+      <div
+        className="legend-item-wrapper"
+      >
+        <span
+          className="legend-item__color"
+          style={{ backgroundColor: this.props.color }}
+        />
+        <span className="legend-item__coords">
+          {this.props.coordinates.join(', ')}
+        </span>
       </div>
     );
   }
@@ -42,6 +49,7 @@ const renderLegend = (legend) => {
 
 const Legend = props => (
   <div
+    id="editor-legend"
     {...props.html2canvasIgnore == false && { 'data-html2canvas-ignore': '' }}
     style={{
       flexDirection: 'column',

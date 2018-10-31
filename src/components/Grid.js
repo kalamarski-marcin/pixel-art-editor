@@ -23,7 +23,7 @@ const Grid = props => {
   return (
     <div
       className="editor-grid"
-      id="grid"
+      id="editor-grid"
       onMouseLeave={props.onMouseLeave}
     >
       <GridHeader gridHeader={props.gridHeader} />

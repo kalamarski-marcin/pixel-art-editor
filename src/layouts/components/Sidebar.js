@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Sidebar = () => (
+const Sidebar = (props) => (
   <div className="sidebar left-sidebar">
-    Menu
+    {props.children}
   </div>
 );
 

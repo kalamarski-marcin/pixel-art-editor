@@ -4,7 +4,7 @@ rm -fr dist
 
 mkdir dist
 
-parcel build index.js --public-url ./ --no-cache index.html
+NODE_ENV=production parcel build index.js --public-url ./ --no-cache index.html
 
 cd dist/
 

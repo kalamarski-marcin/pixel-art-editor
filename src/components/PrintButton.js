@@ -1,33 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import {
+  createGridImage,
+  createLegendImage,
+  downloadPDF
+} from '../pdf';
 
 class PrintButton extends Component {
   constructor(props) {
     super(props);
-
     this.handlePrint = this.handlePrint.bind(this);
   }
 
   handlePrint() {
-    const input = document.getElementById('print-drawing-wrapper');
+    const { store } = this.context;
+    let cbContainer = [createGridImage];
 
-    html2canvas(input, { scale: 1, backgroundColor: '#fff' })
-      .then((canvas) => {
-        var ctx = canvas.getContext('2d');
+    if (store.getState().editor.html2canvasIgnore){
+      cbContainer.push(createLegendImage);
+    }
 
-        ctx.webkitImageSmoothingEnabled = false;
-        ctx.mozImageSmoothingEnabled = false;
-        ctx.imageSmoothingEnabled = false;
-
-        const imgData = canvas.toDataURL('image/jpeg', 1);
-
-        const pdf = new jsPDF('landscape', 'mm', 'A4');
-
-        pdf.addImage(imgData, 'JPEG', 0, 0);
-        pdf.save('download.pdf');
-      });
+    downloadPDF(cbContainer);
   }
 
   render() {
