@@ -7,13 +7,19 @@ const PaintingMode = props => (
       onClick={() => props.enableSingleFillingMode()}
       className={`painting-mode ${props.mode.fillSingleCell.enabled ? 'painting-mode--active' : ''}`}
     >
-      <i className="fas fa-marker fa-2x"></i>
+      <i className="fas fa-paint-brush fa-2x"></i>
     </div>
     <div
       onClick={() => props.enableMultiFillingMode()}
       className={`painting-mode ${props.mode.fillMultipleCells.enabled ? 'painting-mode--active' : ''}`}
     >
-      <i className="fas fa-paint-roller fa-2x"></i>
+      <i className="fas fa-brush fa-2x"></i>
+    </div>
+    <div
+      onClick={() => props.enableAreaFillingMode()}
+      className={`painting-mode ${props.mode.fillArea.enabled ? 'painting-mode--active' : ''}`}
+    >
+      <i className="fas fa-fill fa-2x"></i>
     </div>
     <div
       onClick={() => props.enableEraseMode()}
@@ -28,6 +34,7 @@ PaintingMode.propTypes = {
   mode: PropTypes.object.isRequired,
   enableSingleFillingMode: PropTypes.func.isRequired,
   enableMultiFillingMode: PropTypes.func.isRequired,
+  enableAreaFillingMode: PropTypes.func.isRequired,
   enableEraseMode: PropTypes.func.isRequired
 };
 

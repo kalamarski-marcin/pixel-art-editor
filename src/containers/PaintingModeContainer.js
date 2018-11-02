@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   enableSingleFillingMode,
   enableMultiFillingMode,
+  enableAreaFillingMode,
   enableEraseMode
 } from '../reducers/editor';
 import PaintingMode from '../components/PaintingMode';
@@ -16,12 +17,14 @@ PaintingModeContainer.propTypes = {
   mode: PropTypes.object.isRequired,
   enableSingleFillingMode: PropTypes.func.isRequired,
   enableMultiFillingMode: PropTypes.func.isRequired,
+  enableAreaFillingMode: PropTypes.func.isRequired,
   enableEraseMode: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
   enableSingleFillingMode,
   enableMultiFillingMode,
+  enableAreaFillingMode,
   enableEraseMode
 };
 

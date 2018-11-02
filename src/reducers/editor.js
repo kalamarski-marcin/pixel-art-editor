@@ -3,6 +3,7 @@ import {
   createGridHeader,
   createGrid,
   fillCell,
+  fillArea,
   rebuildCoordinates,
   buildCoordinate,
   updateColors
@@ -19,11 +20,13 @@ const {
   CLEAR_EDITOR,
   RESET_EDITOR,
   SET_HTML2CANVAS_IGNORE,
+  FILL_AREA,
+  FILL_CELL,
   ENABLE_SINGLE_FILLING_MODE,
   ENABLE_MULTI_FILLING_MODE,
   START_MULTI_FILLING_MODE,
   END_MULTI_FILLING_MODE,
-  FILL_CELL,
+  ENABLE_AREA_FILLING_MODE,
   ENABLE_ERASE_MODE,
   START_ERASE_MODE,
   END_ERASE_MODE
@@ -37,6 +40,7 @@ function editor(state = initialState, action) {
     mode.fillSingleCell.enabled = false;
     mode.fillMultipleCells.enabled = false;
     mode.fillMultipleCells.started = false;
+    mode.fillArea.enabled = false;
     mode.erase.enabled = true;
     mode.erase.started = false;
 
@@ -98,6 +102,7 @@ function editor(state = initialState, action) {
     mode.fillSingleCell.enabled = true;
     mode.fillMultipleCells.enabled = false;
     mode.fillMultipleCells.started = false;
+    mode.fillArea.enabled = false;
     mode.erase.enabled = false;
     mode.erase.started = false;
 
@@ -109,6 +114,19 @@ function editor(state = initialState, action) {
     mode.fillSingleCell.enabled = false;
     mode.fillMultipleCells.enabled = true;
     mode.fillMultipleCells.started = false;
+    mode.fillArea.enabled = false;
+    mode.erase.enabled = false;
+    mode.erase.started = false;
+
+    return { ...state, mode }
+  }
+  case ENABLE_AREA_FILLING_MODE: {
+    let mode = R.clone(state.mode);
+
+    mode.fillSingleCell.enabled = false;
+    mode.fillMultipleCells.enabled = false;
+    mode.fillMultipleCells.started = false;
+    mode.fillArea.enabled = true;
     mode.erase.enabled = false;
     mode.erase.started = false;
 
@@ -142,6 +160,17 @@ function editor(state = initialState, action) {
       newState.grid[row][col],
       buildCoordinate(state.gridHeader, row, col)
     )};
+  }
+  case FILL_AREA: {
+    let row = parseInt(action.row, 10);
+    let col = parseInt(action.col, 10);
+    let gridHeader = state.gridHeader;
+
+    let newState = fillArea(state, row, col);
+
+    const colors = R.merge(COLORS, rebuildCoordinates(newState.grid, gridHeader));
+
+    return { ...newState, colors }
   }
   case SET_ACTIVE_COLOR: {
     return { ...state, activeColor: action.activeColor }
@@ -205,6 +234,10 @@ export const setActiveColor = (activeColor) => (
   { type: SET_ACTIVE_COLOR, activeColor }
 )
 
+export const fillAreaAction = (row, col) => (
+  { type: FILL_AREA, row, col }
+)
+
 export const fillCellAction = (row, col) => (
   { type: FILL_CELL, row, col }
 )
@@ -223,6 +256,10 @@ export const enableSingleFillingMode = () => (
 
 export const enableMultiFillingMode = () => (
   { type: ENABLE_MULTI_FILLING_MODE }
+)
+
+export const enableAreaFillingMode = () => (
+  { type: ENABLE_AREA_FILLING_MODE }
 )
 
 export const enableEraseMode = () => (
