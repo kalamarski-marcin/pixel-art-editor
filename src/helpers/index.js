@@ -28,7 +28,12 @@ export const rebuildCoordinates = (grid, letters) => {
     }
   }
 
-  return legend;
+  let sortColorCoordinates = (num, key, obj) => R.sort(
+    sortCooridinates,
+    num
+  );
+
+  return R.mapObjIndexed(sortColorCoordinates, legend);
 }
 
 export const fillCell = (state, row, col) => {
