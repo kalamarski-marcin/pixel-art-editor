@@ -24,10 +24,7 @@ export const rebuildCoordinates = (grid, letters) => {
     for (let [x, color] of row.entries()) {
       if (R.isNil(color)) continue;
 
-      legend[color] = R.sort(
-        sortCooridinates,
-        R.append(`${letters[x]}${y + 1}`, legend[color])
-      );
+      legend[color] = R.append(`${letters[x]}${y + 1}`, legend[color]);
     }
   }
 
@@ -78,8 +75,8 @@ const fillCellInSingleMode = (state, row, col) => {
   let currentCellValue = grid[row][col];
 
   grid[row][col] = currentCellValue
-      ? R.equals(currentCellValue, activeColor) ? null : activeColor
-      : activeColor;
+    ? R.equals(currentCellValue, activeColor) ? null : activeColor
+  : activeColor;
 
   return { ...state, grid }
 }
@@ -87,6 +84,50 @@ const fillCellInSingleMode = (state, row, col) => {
 const fillCellInEraseMode = (state, row, col) => {
   let grid = R.clone(state.grid);
   grid[row][col] = null;
+
+  return { ...state, grid }
+}
+
+export const fillArea = (state, row, col) => {
+  let grid = R.clone(state.grid);
+  let activeColor = state.activeColor;
+  let chosenCellColor = grid[row][col];
+
+  let rows = grid.length;
+  let cols = grid[0].length;
+
+  const floodfill = function(row, col) {
+    let stack = Array();
+    stack.push([row, col]);
+
+    while(stack.length > 0) {
+      let point = stack.pop();
+      let currentCellColor = grid[point[0]][point[1]];
+
+      if(R.isNil(currentCellColor) || R.equals(chosenCellColor,currentCellColor)) {
+
+        grid[point[0]][point[1]] = activeColor;
+
+        if (point[0] < rows - 1){
+          stack.push([point[0] + 1, point[1]]);
+        }
+
+        if (point[1] < cols - 1) {
+          stack.push([point[0], point[1] + 1]);
+        }
+
+        if (point[0] >= 1) {
+          stack.push([point[0] - 1, point[1]]);
+        }
+
+        if (point[1] >= 1) {
+          stack.push([point[0], point[1] - 1]);
+        }
+      }
+    }
+  };
+
+  floodfill(row, col);
 
   return { ...state, grid }
 }

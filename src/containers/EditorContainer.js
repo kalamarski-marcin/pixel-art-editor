@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
+  fillAreaAction,
   fillCellAction,
   startMultiFillingMode,
   endMultiFillingMode,
@@ -28,19 +29,27 @@ class EditorContainer extends Component {
 
     if (this.props.mode.fillSingleCell.enabled) {
       this.props.fillCellAction(row, col);
-    } else {
+    }
+
+    if (this.props.mode.fillMultipleCells.enabled) {
       if (this.props.mode.fillMultipleCells.started) {
         this.props.endMultiFillingMode();
       }
-      else if (this.props.mode.erase.started) {
+      else {
+        this.props.startMultiFillingMode(row, col);
+      }
+    }
+
+    if (this.props.mode.fillArea.enabled) {
+      this.props.fillAreaAction(row, col);
+    }
+
+    if (this.props.mode.erase.enabled) {
+      if (this.props.mode.erase.started) {
         this.props.endEraseMode();
-      } else {
-        if (this.props.mode.fillMultipleCells.enabled) {
-          this.props.startMultiFillingMode(row, col);
-        }
-        if (this.props.mode.erase.enabled) {
-          this.props.startEraseMode(row, col);
-        }
+      }
+      else {
+        this.props.startEraseMode(row, col);
       }
     }
   }
@@ -85,6 +94,7 @@ EditorContainer.propTypes = {
   mode: PropTypes.object.isRequired,
   startMultiFillingMode: PropTypes.func.isRequired,
   endMultiFillingMode: PropTypes.func.isRequired,
+  fillAreaAction: PropTypes.func.isRequired,
   fillCellAction: PropTypes.func.isRequired,
   grid: PropTypes.array.isRequired,
   gridHeader: PropTypes.array.isRequired,
@@ -95,6 +105,7 @@ EditorContainer.propTypes = {
 }
 
 const mapDispatchToProps = {
+  fillAreaAction,
   fillCellAction,
   startMultiFillingMode,
   endMultiFillingMode,

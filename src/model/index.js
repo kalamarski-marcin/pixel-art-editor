@@ -68,6 +68,7 @@ export const initialState = {
   mode: {
     fillSingleCell: { enabled: true },
     fillMultipleCells: { enabled: false, started: false },
+    fillArea: { enabled: false },
     erase: { enabled: false, started: false }
   }
 };
