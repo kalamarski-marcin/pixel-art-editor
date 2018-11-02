@@ -6,10 +6,29 @@ const charGenerator = function* (charAt = 65) {
   }
 };
 
+export const enableMode = (modeToEnable, modes) => {
+  const hasStarted = R.has('started');
+
+  const changeModeState = (mode, key, obj) => {
+    if (R.equals(key, modeToEnable)){
+      mode.enabled = true;
+    }
+    else {
+      mode.enabled = false;
+      if (hasStarted(mode)){
+        mode.started = false;
+      }
+    }
+    return mode;
+  }
+
+  return R.mapObjIndexed(changeModeState, modes);
+};
+
 export const createGridHeader = (cols) => {
   let gen = charGenerator();
   return Array.from(new Array(cols), () => null).map(() => gen.next().value);
-}
+};
 
 export const createGrid = (rows, cols) => {
   const cells = () => Array.from(new Array(cols), () => null);
@@ -34,7 +53,7 @@ export const rebuildCoordinates = (grid, letters) => {
   );
 
   return R.mapObjIndexed(sortColorCoordinates, legend);
-}
+};
 
 export const fillCell = (state, row, col) => {
   if (state.mode.fillSingleCell.enabled) {
@@ -46,7 +65,7 @@ export const fillCell = (state, row, col) => {
   if (state.mode.erase.enabled) {
     return fillCellInEraseMode(state, row, col);
   }
-}
+};
 
 export const updateColors = (colors, oldCellValue, newCellValue, coordinate) => {
   if (newCellValue) {
@@ -61,18 +80,18 @@ export const updateColors = (colors, oldCellValue, newCellValue, coordinate) => 
   }
 
   return colors;
-}
+};
 
 export const addCoordinateToColorContainer = (colorContainer, coordinate) => {
   return R.sort(sortCooridinates, R.uniq(R.append(coordinate, colorContainer)));
-}
+};
 
 const fillCellInMultipleMode = (state, row, col) => {
   let grid = R.clone(state.grid);
   grid[row][col] = state.activeColor;
 
   return { ...state, grid }
-}
+};
 
 const fillCellInSingleMode = (state, row, col) => {
   let grid = R.clone(state.grid);
@@ -84,14 +103,14 @@ const fillCellInSingleMode = (state, row, col) => {
   : activeColor;
 
   return { ...state, grid }
-}
+};
 
 const fillCellInEraseMode = (state, row, col) => {
   let grid = R.clone(state.grid);
   grid[row][col] = null;
 
   return { ...state, grid }
-}
+};
 
 export const fillArea = (state, row, col) => {
   let grid = R.clone(state.grid);
@@ -135,8 +154,8 @@ export const fillArea = (state, row, col) => {
   floodfill(row, col);
 
   return { ...state, grid }
-}
+};
 
 export const buildCoordinate = (gridHeader, row, col) => {
   return `${gridHeader[col]}${row + 1}`;
-}
+};

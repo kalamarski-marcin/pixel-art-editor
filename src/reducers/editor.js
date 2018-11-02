@@ -6,7 +6,8 @@ import {
   fillArea,
   rebuildCoordinates,
   buildCoordinate,
-  updateColors
+  updateColors,
+  enableMode
 } from '../helpers';
 
 import { initialState, COLORS } from '../model'
@@ -37,14 +38,7 @@ function editor(state = initialState, action) {
   case ENABLE_ERASE_MODE: {
     let mode = R.clone(state.mode);
 
-    mode.fillSingleCell.enabled = false;
-    mode.fillMultipleCells.enabled = false;
-    mode.fillMultipleCells.started = false;
-    mode.fillArea.enabled = false;
-    mode.erase.enabled = true;
-    mode.erase.started = false;
-
-    return { ...state, mode }
+    return { ...state, mode: enableMode('erase', mode) }
   }
   case START_ERASE_MODE: {
     let row = parseInt(action.row, 10);
@@ -99,38 +93,17 @@ function editor(state = initialState, action) {
   case ENABLE_SINGLE_FILLING_MODE: {
     let mode = R.clone(state.mode);
 
-    mode.fillSingleCell.enabled = true;
-    mode.fillMultipleCells.enabled = false;
-    mode.fillMultipleCells.started = false;
-    mode.fillArea.enabled = false;
-    mode.erase.enabled = false;
-    mode.erase.started = false;
-
-    return { ...state, mode }
+    return { ...state, mode: enableMode('fillSingleCell', mode) }
   }
   case ENABLE_MULTI_FILLING_MODE: {
     let mode = R.clone(state.mode);
 
-    mode.fillSingleCell.enabled = false;
-    mode.fillMultipleCells.enabled = true;
-    mode.fillMultipleCells.started = false;
-    mode.fillArea.enabled = false;
-    mode.erase.enabled = false;
-    mode.erase.started = false;
-
-    return { ...state, mode }
+    return { ...state, mode: enableMode('fillMultipleCells', mode) }
   }
   case ENABLE_AREA_FILLING_MODE: {
     let mode = R.clone(state.mode);
 
-    mode.fillSingleCell.enabled = false;
-    mode.fillMultipleCells.enabled = false;
-    mode.fillMultipleCells.started = false;
-    mode.fillArea.enabled = true;
-    mode.erase.enabled = false;
-    mode.erase.started = false;
-
-    return { ...state, mode }
+    return { ...state, mode: enableMode('fillArea', mode) }
   }
   case SET_HTML2CANVAS_IGNORE: {
     return {
@@ -281,6 +254,5 @@ export const startEraseMode = (row, col) => (
 export const endEraseMode = () => {
   return { type: END_ERASE_MODE }
 }
-
 
 export default editor;
