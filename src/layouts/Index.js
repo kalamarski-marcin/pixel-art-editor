@@ -5,7 +5,7 @@ import Main from './components/Main';
 import ScrollableContent from './components/ScrollableContent';
 import Sidebar from './components/Sidebar';
 
-import PictureConfigurator from '../components/PictureConfigurator';
+import EditorSidebar from '../components/EditorSidebar';
 import Editor from '../components/Editor';
 
 const Index = () => (
@@ -13,7 +13,7 @@ const Index = () => (
     <Header />
     <Main>
       <Sidebar>
-        <PictureConfigurator />
+        <EditorSidebar />
       </Sidebar>
       <ScrollableContent>
         <Editor />

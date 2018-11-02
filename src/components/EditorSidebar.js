@@ -9,7 +9,7 @@ import ResetButton from '../components/ResetButton';
 import ClearButton from '../components/ClearButton';
 import PrintButton from '../components/PrintButton';
 
-class PictureConfigurator extends Component {
+class EditorSidebar extends Component {
   render() {
     return (
       <Fragment>
@@ -32,8 +32,8 @@ class PictureConfigurator extends Component {
   }
 }
 
-PictureConfigurator.contextTypes = {
+EditorSidebar.contextTypes = {
   store: PropTypes.object.isRequired
 };
 
-export default PictureConfigurator;
+export default EditorSidebar;
