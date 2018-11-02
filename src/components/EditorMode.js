@@ -1,7 +1,7 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 
-const PaintingMode = props => (
+const EditorMode = props => (
   <div className='painting-mode-wrapper'>
     <div
       onClick={() => props.enableSingleFillingMode()}
@@ -30,7 +30,7 @@ const PaintingMode = props => (
   </div>
 );
 
-PaintingMode.propTypes = {
+EditorMode.propTypes = {
   mode: PropTypes.object.isRequired,
   enableSingleFillingMode: PropTypes.func.isRequired,
   enableMultiFillingMode: PropTypes.func.isRequired,
@@ -38,4 +38,4 @@ PaintingMode.propTypes = {
   enableEraseMode: PropTypes.func.isRequired
 };
 
-export default PaintingMode;
+export default EditorMode;

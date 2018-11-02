@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import EditorSidebarSectionWrapper from './EditorSidebarSectionWrapper';
+import ButtonsWrapper from './ButtonsWrapper';
 import ColumnInputRangeContainer from '../containers/ColumnsInputRangeContainer';
 import RowsInputRangeContainer from '../containers/RowsInputRangeContainer';
 import ColorPickerContainer from '../containers/ColorPickerContainer';
 import PrintingOptionsContainer from '../containers/PrintingOptionsContainer';
-import PaintingModeContainer from '../containers/PaintingModeContainer';
+import EditorModeContainer from '../containers/EditorModeContainer';
 import ResetButton from '../components/ResetButton';
 import ClearButton from '../components/ClearButton';
 import PrintButton from '../components/PrintButton';
@@ -13,20 +15,26 @@ class EditorSidebar extends Component {
   render() {
     return (
       <Fragment>
-        <div className="inputs-wrapper">
+        <EditorSidebarSectionWrapper>
           <ColumnInputRangeContainer />
           <RowsInputRangeContainer />
-        </div>
-        <PaintingModeContainer />
-        <ColorPickerContainer />
-        <div>
+        </EditorSidebarSectionWrapper>
+        <EditorSidebarSectionWrapper>
+          <EditorModeContainer />
+        </EditorSidebarSectionWrapper>
+        <EditorSidebarSectionWrapper>
+          <ColorPickerContainer />
+        </EditorSidebarSectionWrapper>
+        <EditorSidebarSectionWrapper>
           <PrintingOptionsContainer />
-        </div>
-        <div className="buttons-wrapper">
-          <ResetButton />
-          <ClearButton />
-          <PrintButton />
-        </div>
+        </EditorSidebarSectionWrapper>
+        <EditorSidebarSectionWrapper>
+          <ButtonsWrapper>
+            <ResetButton />
+            <ClearButton />
+            <PrintButton />
+           </ButtonsWrapper>
+        </EditorSidebarSectionWrapper>
       </Fragment>
     )
   }

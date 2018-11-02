@@ -14,13 +14,13 @@ class PrintButton extends Component {
 
   handlePrint() {
     const { store } = this.context;
-    let cbContainer = [createGridImage];
+    let imageCreators = [createGridImage];
 
     if (store.getState().editor.html2canvasIgnore){
-      cbContainer.push(createLegendImage);
+      imageCreators.push(createLegendImage);
     }
 
-    downloadPDF(cbContainer);
+    downloadPDF(imageCreators);
   }
 
   render() {

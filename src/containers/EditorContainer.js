@@ -15,7 +15,7 @@ class EditorContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.handleOnClick= this.handleOnClick.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnMouseEnter = this.handleOnMouseEnter.bind(this);
     this.handleOnMouseLeave = this.handleOnMouseLeave.bind(this);
   }

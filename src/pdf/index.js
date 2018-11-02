@@ -41,8 +41,8 @@ export const createLegendImage = () => {
   return createImage(editorLegendClone);
 }
 
-export const downloadPDF = (imagesCb) => {
-  Promise.all(imagesCb.map(imageCb => imageCb())).then(results => {
+export const downloadPDF = (imageCreators) => {
+  Promise.all(imageCreators.map(imageCreator => imageCreator())).then(results => {
     const pdf = new jsPDF('portrait', 'mm', 'A4');
     pdf.addImage(results[0], 'JPEG', 0, 0);
 

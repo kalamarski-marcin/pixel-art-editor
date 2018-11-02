@@ -7,13 +7,13 @@ import {
   enableAreaFillingMode,
   enableEraseMode
 } from '../reducers/editor';
-import PaintingMode from '../components/PaintingMode';
+import EditorMode from '../components/EditorMode';
 
-const PaintingModeContainer = props => (
-  <PaintingMode { ...props } />
+const EditorModeContainer = props => (
+  <EditorMode { ...props } />
 );
 
-PaintingModeContainer.propTypes = {
+EditorModeContainer.propTypes = {
   mode: PropTypes.object.isRequired,
   enableSingleFillingMode: PropTypes.func.isRequired,
   enableMultiFillingMode: PropTypes.func.isRequired,
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PaintingModeContainer);
+)(EditorModeContainer);
