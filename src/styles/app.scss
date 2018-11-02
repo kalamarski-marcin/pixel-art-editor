@@ -306,8 +306,16 @@ html {
 
   .painting-mode {
     border: 2px solid #eaeaea;
-    padding: 7px;
+    padding: 5px 0;
     margin: 5px;
+    flex-grow: 0;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .painting-mode--active {

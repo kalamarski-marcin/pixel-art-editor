@@ -10,7 +10,6 @@ import {
   endEraseMode
 } from '../reducers/editor';
 import Grid from '../components/Grid';
-import EditorModeFactory from '../utils/EditorModeFactory';
 
 class EditorContainer extends Component {
   constructor(props) {
@@ -19,8 +18,6 @@ class EditorContainer extends Component {
     this.handleOnClick= this.handleOnClick.bind(this);
     this.handleOnMouseEnter = this.handleOnMouseEnter.bind(this);
     this.handleOnMouseLeave = this.handleOnMouseLeave.bind(this);
-
-    this.editorMode = EditorModeFactory.build(props);
   }
 
   handleOnClick(event) {
