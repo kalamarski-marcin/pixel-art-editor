@@ -1,32 +1,31 @@
 const R = require('ramda');
 
-const charGenerator = function* (charAt = 65) {
+function * charGenerator(charAt = 65) {
   while (true) {
     yield String.fromCharCode(charAt++);
   }
-};
+}
 
 export const enableMode = (modeToEnable, modes) => {
   const hasStarted = R.has('started');
 
-  const changeModeState = (mode, key, obj) => {
-    if (R.equals(key, modeToEnable)){
+  const changeModeState = (mode, key) => {
+    if (R.equals(key, modeToEnable)) {
       mode.enabled = true;
-    }
-    else {
+    } else {
       mode.enabled = false;
-      if (hasStarted(mode)){
+      if (hasStarted(mode)) {
         mode.started = false;
       }
     }
     return mode;
-  }
+  };
 
   return R.mapObjIndexed(changeModeState, modes);
 };
 
-export const createGridHeader = (cols) => {
-  let gen = charGenerator();
+export const createGridHeader = cols => {
+  const gen = charGenerator();
   return Array.from(new Array(cols), () => null).map(() => gen.next().value);
 };
 
@@ -38,18 +37,18 @@ export const createGrid = (rows, cols) => {
 export const sortCooridinates = (a, b) => a.localeCompare(b, 'en', { numeric: true });
 
 export const rebuildCoordinates = (grid, letters) => {
-  let legend = {};
-  for (let [y, row] of grid.entries()) {
-    for (let [x, color] of row.entries()) {
+  const legend = {};
+  for (const [y, row] of grid.entries()) {
+    for (const [x, color] of row.entries()) {
       if (R.isNil(color)) continue;
 
       legend[color] = R.append(`${letters[x]}${y + 1}`, legend[color]);
     }
   }
 
-  let sortColorCoordinates = (num, key, obj) => R.sort(
+  const sortColorCoordinates = item => R.sort(
     sortCooridinates,
-    num
+    item
   );
 
   return R.mapObjIndexed(sortColorCoordinates, legend);
@@ -87,52 +86,51 @@ export const addCoordinateToColorContainer = (colorContainer, coordinate) => {
 };
 
 const fillCellInMultipleMode = (state, row, col) => {
-  let grid = R.clone(state.grid);
+  const grid = R.clone(state.grid);
   grid[row][col] = state.activeColor;
 
-  return { ...state, grid }
+  return { ...state, grid };
 };
 
 const fillCellInSingleMode = (state, row, col) => {
-  let grid = R.clone(state.grid);
-  let activeColor = state.activeColor;
-  let currentCellValue = grid[row][col];
+  const grid = R.clone(state.grid);
+  const activeColor = state.activeColor;
+  const currentCellValue = grid[row][col];
 
   grid[row][col] = currentCellValue
     ? R.equals(currentCellValue, activeColor) ? null : activeColor
-  : activeColor;
+    : activeColor;
 
-  return { ...state, grid }
+  return { ...state, grid };
 };
 
 const fillCellInEraseMode = (state, row, col) => {
-  let grid = R.clone(state.grid);
+  const grid = R.clone(state.grid);
   grid[row][col] = null;
 
-  return { ...state, grid }
+  return { ...state, grid };
 };
 
 export const fillArea = (state, row, col) => {
-  let grid = R.clone(state.grid);
-  let activeColor = state.activeColor;
-  let chosenCellColor = grid[row][col];
+  const grid = R.clone(state.grid);
+  const activeColor = state.activeColor;
+  const chosenCellColor = grid[row][col];
 
-  let rows = grid.length;
-  let cols = grid[0].length;
+  const rows = grid.length;
+  const cols = grid[0].length;
 
-  const floodfill = function(row, col) {
-    let stack = Array();
+  function floodFill(row, col) {
+    const stack = Array();
     stack.push([row, col]);
 
     while(stack.length > 0) {
-      let point = stack.pop();
-      let currentCellColor = grid[point[0]][point[1]];
+      const point = stack.pop();
+      const currentCellColor = grid[point[0]][point[1]];
 
-      if(R.isNil(currentCellColor) || R.equals(chosenCellColor,currentCellColor)) {
-
+      if(R.isNil(currentCellColor) || R.equals(chosenCellColor, currentCellColor)) {
         grid[point[0]][point[1]] = activeColor;
 
-        if (point[0] < rows - 1){
+        if (point[0] < rows - 1) {
           stack.push([point[0] + 1, point[1]]);
         }
 
@@ -149,11 +147,11 @@ export const fillArea = (state, row, col) => {
         }
       }
     }
-  };
+  }
 
-  floodfill(row, col);
+  floodFill(row, col);
 
-  return { ...state, grid }
+  return { ...state, grid };
 };
 
 export const buildCoordinate = (gridHeader, row, col) => {

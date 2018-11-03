@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {setActiveColor} from '../reducers/editor';
+import { connect } from 'react-redux';
+import { setActiveColor } from '../reducers/editor';
 import ColorPicker from '../components/ColorPicker';
 
 const R = require('ramda');
 
 class ColorPickerContainer extends Component {
-  constructor (props){
+  constructor(props) {
     super(props);
 
     this.handleOnClick = this.handleOnClick.bind(this);
   }
 
   handleOnClick(event) {
-      this.props.setActiveColor(event.target.dataset.color);
+    this.props.setActiveColor(event.target.dataset.color);
   }
 
   render() {
@@ -24,23 +24,23 @@ class ColorPickerContainer extends Component {
         handleSetActiveColor={this.handleOnClick}
         activeColor={this.props.activeColor}
       />
-    )
+    );
   }
 }
 
 ColorPickerContainer.propTypes = {
   setActiveColor: PropTypes.func.isRequired,
   activeColor: PropTypes.string.isRequired,
-  colors: PropTypes.array.isRequired
-}
-
-const mapDispatchToProps = {
-  setActiveColor: setActiveColor
+  colors: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapDispatchToProps = {
+  setActiveColor: setActiveColor,
+};
+
+const mapStateToProps = state => ({
   colors: R.keys(state.editor.colors),
-  activeColor: state.editor.activeColor
+  activeColor: state.editor.activeColor,
 });
 
 export default connect(

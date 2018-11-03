@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   createGridImage,
   createLegendImage,
-  downloadPDF
+  downloadPDF,
 } from '../pdf';
 
 class PrintButton extends Component {
@@ -14,9 +14,9 @@ class PrintButton extends Component {
 
   handlePrint() {
     const { store } = this.context;
-    let imageCreators = [createGridImage];
+    const imageCreators = [createGridImage];
 
-    if (store.getState().editor.html2canvasIgnore){
+    if (store.getState().editor.html2canvasIgnore) {
       imageCreators.push(createLegendImage);
     }
 
@@ -41,7 +41,7 @@ class PrintButton extends Component {
 }
 
 PrintButton.contextTypes = {
-  store: PropTypes.object.isRequired
+  store: PropTypes.object.isRequired,
 };
 
 export default PrintButton;

@@ -5,7 +5,7 @@ import {
   enableSingleFillingMode,
   enableMultiFillingMode,
   enableAreaFillingMode,
-  enableEraseMode
+  enableEraseMode,
 } from '../reducers/editor';
 import EditorMode from '../components/EditorMode';
 
@@ -18,18 +18,18 @@ EditorModeContainer.propTypes = {
   enableSingleFillingMode: PropTypes.func.isRequired,
   enableMultiFillingMode: PropTypes.func.isRequired,
   enableAreaFillingMode: PropTypes.func.isRequired,
-  enableEraseMode: PropTypes.func.isRequired
-}
+  enableEraseMode: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
   enableSingleFillingMode,
   enableMultiFillingMode,
   enableAreaFillingMode,
-  enableEraseMode
+  enableEraseMode,
 };
 
-const mapStateToProps = (state) => ({
-  mode: state.editor.mode
+const mapStateToProps = state => ({
+  mode: state.editor.mode,
 });
 
 export default connect(

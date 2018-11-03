@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {resizeRows} from '../reducers/editor';
+import { connect } from 'react-redux';
+import { resizeRows } from '../reducers/editor';
 import InputRange from '../components/InputRange';
 
 class RowsInputRangeContainer extends Component {
-  constructor (props){
+  constructor(props) {
     super(props);
 
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnInput = this.handleOnInput.bind(this);
 
-    this.state = { valueLabel: this.props.rows }
+    this.state = { valueLabel: this.props.rows };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ valueLabel: nextProps.rows })
+    this.setState({ valueLabel: nextProps.rows });
   }
 
-  handleOnChange (event){
+  handleOnChange(event) {
     this.props.resizeRows(event.target.value);
   }
 
-  handleOnInput (event) {
-    this.setState({ valueLabel: parseInt(event.target.value, 10) })
+  handleOnInput(event) {
+    this.setState({ valueLabel: parseInt(event.target.value, 10) });
   }
 
   render() {
@@ -36,21 +36,21 @@ class RowsInputRangeContainer extends Component {
         handleOnInput={this.handleOnInput}
         valueLabel={this.state.valueLabel}
       />
-    )
+    );
   }
 }
 
 RowsInputRangeContainer.propTypes = {
   resizeRows: PropTypes.func.isRequired,
-  rows: PropTypes.number.isRequired
-}
-
-const mapDispatchToProps = {
-  resizeRows: resizeRows
+  rows: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  rows: state.editor.rows
+const mapDispatchToProps = {
+  resizeRows: resizeRows,
+};
+
+const mapStateToProps = state => ({
+  rows: state.editor.rows,
 });
 
 export default connect(

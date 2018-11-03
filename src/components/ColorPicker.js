@@ -22,7 +22,7 @@ const ColorPicker = ({ colors, activeColor, handleSetActiveColor }) => (
 ColorPicker.propTypes = {
   colors: PropTypes.array.isRequired,
   activeColor: PropTypes.string.isRequired,
-  handleSetActiveColor: PropTypes.func.isRequired
+  handleSetActiveColor: PropTypes.func.isRequired,
 };
 
 export default ColorPicker;

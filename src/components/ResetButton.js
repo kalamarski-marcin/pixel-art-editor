@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {resetEditor} from '../reducers/editor';
+import { resetEditor } from '../reducers/editor';
 
 class ResetButton extends Component {
   render() {
@@ -21,7 +21,7 @@ class ResetButton extends Component {
 }
 
 ResetButton.contextTypes = {
-  store: PropTypes.object.isRequired
+  store: PropTypes.object.isRequired,
 };
 
 export default ResetButton;

@@ -33,15 +33,15 @@ class EditorSidebar extends Component {
             <ResetButton />
             <ClearButton />
             <PrintButton />
-           </ButtonsWrapper>
+          </ButtonsWrapper>
         </EditorSidebarSectionWrapper>
       </Fragment>
-    )
+    );
   }
 }
 
 EditorSidebar.contextTypes = {
-  store: PropTypes.object.isRequired
+  store: PropTypes.object.isRequired,
 };
 
 export default EditorSidebar;

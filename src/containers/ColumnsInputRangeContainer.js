@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {resizeCols} from '../reducers/editor';
+import { connect } from 'react-redux';
+import { resizeCols } from '../reducers/editor';
 import InputRange from '../components/InputRange';
 
 class ColumnsInputRangeContainer extends Component {
-  constructor (props){
+  constructor(props) {
     super(props);
 
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnInput = this.handleOnInput.bind(this);
 
-    this.state = { valueLabel: this.props.cols }
+    this.state = { valueLabel: this.props.cols };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ valueLabel: nextProps.cols })
+    this.setState({ valueLabel: nextProps.cols });
   }
 
-  handleOnInput (event) {
-    this.setState({ valueLabel: parseInt(event.target.value, 10) })
+  handleOnInput(event) {
+    this.setState({ valueLabel: parseInt(event.target.value, 10) });
   }
 
-  handleOnChange (event){
+  handleOnChange(event) {
     this.props.resizeCols(event.target.value);
   }
 
@@ -36,21 +36,21 @@ class ColumnsInputRangeContainer extends Component {
         handleOnInput={this.handleOnInput}
         valueLabel={this.state.valueLabel}
       />
-    )
+    );
   }
 }
 
 ColumnsInputRangeContainer.propTypes = {
   resizeCols: PropTypes.func.isRequired,
-  cols: PropTypes.number.isRequired
-}
-
-const mapDispatchToProps = {
-  resizeCols: resizeCols
+  cols: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  cols: state.editor.cols
+const mapDispatchToProps = {
+  resizeCols: resizeCols,
+};
+
+const mapStateToProps = state => ({
+  cols: state.editor.cols,
 });
 
 export default connect(

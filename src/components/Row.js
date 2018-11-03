@@ -4,7 +4,7 @@ import Cell from './Cell';
 
 const R = require('ramda');
 
-const renderCells = (props) => {
+const renderCells = props => {
   return props.cells.map((cell, index) => {
     return (
       <Cell
@@ -25,7 +25,7 @@ class Row extends Component {
   shouldComponentUpdate(nextProps) {
     return !R.equals(nextProps.cells, this.props.cells) ||
       nextProps.html2canvasIgnore !== this.props.html2canvasIgnore ||
-      !R.equals(nextProps.mode, this.props.mode)
+      !R.equals(nextProps.mode, this.props.mode);
   }
 
   render() {
@@ -46,7 +46,7 @@ Row.propTypes = {
   onClick: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,
-  mode: PropTypes.object.isRequired
+  mode: PropTypes.object.isRequired,
 };
 
 export default Row;

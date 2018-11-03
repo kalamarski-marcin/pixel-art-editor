@@ -7,7 +7,7 @@ import {
   startMultiFillingMode,
   endMultiFillingMode,
   startEraseMode,
-  endEraseMode
+  endEraseMode,
 } from '../reducers/editor';
 import Grid from '../components/Grid';
 
@@ -21,8 +21,8 @@ class EditorContainer extends Component {
   }
 
   handleOnClick(event) {
-    let row = event.target.dataset.row;
-    let col = event.target.dataset.col;
+    const row = event.target.dataset.row;
+    const col = event.target.dataset.col;
 
     if (this.props.mode.fillSingleCell.enabled) {
       this.props.fillCellAction(row, col);
@@ -31,8 +31,7 @@ class EditorContainer extends Component {
     if (this.props.mode.fillMultipleCells.enabled) {
       if (this.props.mode.fillMultipleCells.started) {
         this.props.endMultiFillingMode();
-      }
-      else {
+      } else {
         this.props.startMultiFillingMode(row, col);
       }
     }
@@ -44,16 +43,15 @@ class EditorContainer extends Component {
     if (this.props.mode.erase.enabled) {
       if (this.props.mode.erase.started) {
         this.props.endEraseMode();
-      }
-      else {
+      } else {
         this.props.startEraseMode(row, col);
       }
     }
   }
 
   handleOnMouseEnter(event) {
-    let row = event.target.dataset.row;
-    let col = event.target.dataset.col;
+    const row = event.target.dataset.row;
+    const col = event.target.dataset.col;
 
     if (this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started) {
       this.props.fillCellAction(row, col);
@@ -98,8 +96,8 @@ EditorContainer.propTypes = {
   html2canvasIgnore: PropTypes.bool.isRequired,
   activeColor: PropTypes.string.isRequired,
   startEraseMode: PropTypes.func.isRequired,
-  endEraseMode: PropTypes.func.isRequired
-}
+  endEraseMode: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
   fillAreaAction,
@@ -107,16 +105,16 @@ const mapDispatchToProps = {
   startMultiFillingMode,
   endMultiFillingMode,
   startEraseMode,
-  endEraseMode
+  endEraseMode,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   mode: state.editor.mode,
   grid: state.editor.grid,
   zoom: state.editor.zoom,
   gridHeader: state.editor.gridHeader,
   html2canvasIgnore: state.editor.html2canvasIgnore,
-  activeColor: state.editor.activeColor
+  activeColor: state.editor.activeColor,
 });
 
 export default connect(

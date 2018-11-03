@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {clearEditor} from '../reducers/editor';
+import { clearEditor } from '../reducers/editor';
 
 class ClearButton extends Component {
   render() {
@@ -21,7 +21,7 @@ class ClearButton extends Component {
 }
 
 ClearButton.contextTypes = {
-  store: PropTypes.object.isRequired
+  store: PropTypes.object.isRequired,
 };
 
 export default ClearButton;

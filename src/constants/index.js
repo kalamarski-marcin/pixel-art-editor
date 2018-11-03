@@ -1,6 +1,6 @@
 import keyMirror from 'fbjs/lib/keyMirror';
 
-let constants = {
+const constants = {
   SET_ACTIVE_COLOR: null,
   RESIZE_ROWS: null,
   RESIZE_COLS: null,
@@ -16,7 +16,7 @@ let constants = {
   ENABLE_AREA_FILLING_MODE: null,
   ENABLE_ERASE_MODE: null,
   START_ERASE_MODE: null,
-  END_ERASE_MODE: null
+  END_ERASE_MODE: null,
 };
 
 const ActionTypes = keyMirror(constants);

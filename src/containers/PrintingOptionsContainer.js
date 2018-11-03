@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { setHtml2canvasIgnore } from '../reducers/editor';
 import PrintingOptions from '../components/PrintingOptions';
 
@@ -13,15 +13,15 @@ const PrintingOptionsContainer = props => (
 
 PrintingOptionsContainer.propTypes = {
   setHtml2canvasIgnore: PropTypes.func.isRequired,
-  html2canvasIgnore: PropTypes.bool.isRequired
-}
-
-const mapDispatchToProps = {
-  setHtml2canvasIgnore
+  html2canvasIgnore: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  html2canvasIgnore: state.editor.html2canvasIgnore
+const mapDispatchToProps = {
+  setHtml2canvasIgnore,
+};
+
+const mapStateToProps = state => ({
+  html2canvasIgnore: state.editor.html2canvasIgnore,
 });
 
 export default connect(

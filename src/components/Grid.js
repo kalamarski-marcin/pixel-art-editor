@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Row from './Row';
 import GridHeader from './GridHeader';
 
-const renderRows = (props) => {
+const renderRows = props => {
   return props.grid.map((row, index) => {
     return (
       <Row
@@ -29,7 +29,7 @@ const Grid = props => {
       <GridHeader gridHeader={props.gridHeader} />
       { renderRows(props) }
     </div>
-  )
+  );
 };
 
 Grid.propTypes = {
@@ -39,7 +39,7 @@ Grid.propTypes = {
   onClick: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
-  html2canvasIgnore: PropTypes.bool.isRequired
+  html2canvasIgnore: PropTypes.bool.isRequired,
 };
 
 export default Grid;

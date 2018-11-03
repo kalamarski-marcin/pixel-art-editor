@@ -26,10 +26,10 @@ class LegendItem extends Component {
 
 LegendItem.propTypes = {
   color: PropTypes.string.isRequired,
-  coordinates: PropTypes.array.isRequired
-}
+  coordinates: PropTypes.array.isRequired,
+};
 
-const renderLegend = (legend) => {
+const renderLegend = legend => {
   const legendItems = [];
 
   Object.entries(legend).forEach(([key, value]) => {
@@ -50,13 +50,13 @@ const renderLegend = (legend) => {
 const Legend = props => (
   <div
     id="editor-legend"
-    {...props.html2canvasIgnore == false && { 'data-html2canvas-ignore': '' }}
+    {...props.html2canvasIgnore === false && { 'data-html2canvas-ignore': '' }}
     style={{
       flexDirection: 'column',
       padding: '10px',
       display: 'flex',
       flex: 1,
-      flexGrow: 1
+      flexGrow: 1,
     }}
   >
     {renderLegend(props.legend)}
@@ -65,7 +65,7 @@ const Legend = props => (
 
 Legend.propTypes = {
   legend: PropTypes.object.isRequired,
-  html2canvasIgnore: PropTypes.bool.isRequired
+  html2canvasIgnore: PropTypes.bool.isRequired,
 };
 
 export default Legend;

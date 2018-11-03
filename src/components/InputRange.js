@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DebounceInput from 'react-debounce-input';
 
-const InputRange = (props) => (
+const InputRange = props => (
   <div className="input-wrapper">
     <label htmlFor={props.id}>{props.label}</label>
     <DebounceInput
@@ -26,7 +26,7 @@ InputRange.propTypes = {
   handleOnChange: PropTypes.func.isRequired,
   handleOnInput: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
-}
+  id: PropTypes.string.isRequired,
+};
 
 export default InputRange;

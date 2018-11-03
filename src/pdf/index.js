@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-const createImage = (node) => {
+const createImage = node => {
   return html2canvas(node, { scale: 1, backgroundColor: '#fff' })
     .then(canvas => {
       const ctx = canvas.getContext('2d');
@@ -15,7 +15,7 @@ const createImage = (node) => {
       node.remove();
       return image;
     });
-}
+};
 
 export const createGridImage = () => {
   const editorGridClone = document.getElementById('editor-grid').cloneNode(true);
@@ -27,7 +27,7 @@ export const createGridImage = () => {
   document.body.appendChild(editorGridClone);
 
   return createImage(editorGridClone);
-}
+};
 
 export const createLegendImage = () => {
   const editorLegendClone = document.getElementById('editor-legend').cloneNode(true);
@@ -39,15 +39,15 @@ export const createLegendImage = () => {
   document.body.appendChild(editorLegendClone);
 
   return createImage(editorLegendClone);
-}
+};
 
-export const downloadPDF = (imageCreators) => {
+export const downloadPDF = imageCreators => {
   Promise.all(imageCreators.map(imageCreator => imageCreator())).then(results => {
     const pdf = new jsPDF('portrait', 'mm', 'A4');
     pdf.addImage(results[0], 'JPEG', 0, 0);
 
-    if (results.length > 1){
-      for(let i=1; i < results.length; i++){
+    if (results.length > 1) {
+      for(let i = 1; i < results.length; i++) {
         pdf.addPage();
         pdf.addImage(results[i], 'JPEG', 0, 0);
       }
@@ -55,4 +55,4 @@ export const downloadPDF = (imageCreators) => {
 
     pdf.save('download.pdf');
   });
-}
+};

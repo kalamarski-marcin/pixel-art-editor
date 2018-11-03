@@ -4,7 +4,7 @@ const Footer = () => (
   <div className="flexbox-item footer">
     &copy; 2018 Made with &nbsp;
     <span className="icon">
-      <i className="fas fa-heart"></i>
+      <i className="fas fa-heart" />
     </span>
     &nbsp; by &nbsp;
     <a

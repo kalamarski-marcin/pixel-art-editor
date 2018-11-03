@@ -1,6 +1,6 @@
 import {
   createGrid,
-  createGridHeader
+  createGridHeader,
 } from '../helpers';
 
 const DEFAULT_ROWS = 20;
@@ -54,7 +54,7 @@ export const COLORS = {
   '#f5f5f5': [],
   '#d3d3d3': [],
   '#808080': [],
-  '#000000': []
+  '#000000': [],
 };
 
 export const initialState = {
@@ -69,6 +69,6 @@ export const initialState = {
     fillSingleCell: { enabled: true },
     fillMultipleCells: { enabled: false, started: false },
     fillArea: { enabled: false },
-    erase: { enabled: false, started: false }
-  }
+    erase: { enabled: false, started: false },
+  },
 };

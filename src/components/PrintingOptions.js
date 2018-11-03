@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 class PrintingOptions extends Component {
   render() {
     return (
-      <div className='radio-inputs-wrapper'>
+      <div className="radio-inputs-wrapper">
         <div>
           <input
-            id='print-empty-grid'
-            type='radio'
+            id="print-empty-grid"
+            type="radio"
             checked={this.props.html2canvasIgnore ? 'checked' : ''}
             onChange={() => this.props.setHtml2canvasIgnore(true)}
           />
@@ -16,12 +16,12 @@ class PrintingOptions extends Component {
         </div>
         <div>
           <input
-            id='print-drawing'
-            type='radio'
+            id="print-drawing"
+            type="radio"
             checked={!this.props.html2canvasIgnore ? 'checked' : ''}
             onChange={() => this.props.setHtml2canvasIgnore(false)}
           />
-          <label htmlFor='print-drawing'>Drukuj obrazek</label>
+          <label htmlFor="print-drawing">Drukuj obrazek</label>
         </div>
       </div>
     );
@@ -30,7 +30,7 @@ class PrintingOptions extends Component {
 
 PrintingOptions.propTypes = {
   html2canvasIgnore: PropTypes.bool.isRequired,
-  setHtml2canvasIgnore: PropTypes.func.isRequired
+  setHtml2canvasIgnore: PropTypes.func.isRequired,
 };
 
 export default PrintingOptions;
