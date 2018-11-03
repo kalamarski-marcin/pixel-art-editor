@@ -1,11 +1,5 @@
 const R = require('ramda');
 
-function * charGenerator(charAt = 65) {
-  while (true) {
-    yield String.fromCharCode(charAt++);
-  }
-}
-
 export const enableMode = (modeToEnable, modes) => {
   const hasStarted = R.has('started');
 
@@ -25,9 +19,15 @@ export const enableMode = (modeToEnable, modes) => {
 };
 
 export const createGridHeader = cols => {
-  const gen = charGenerator();
-  return Array.from(new Array(cols), () => null).map(() => gen.next().value);
+  const generator = charGenerator();
+  return Array.from(new Array(cols), () => null).map(() => generator.next().value);
 };
+
+function * charGenerator(charAt = 65) {
+  while (true) {
+    yield String.fromCharCode(charAt++);
+  }
+}
 
 export const createGrid = (rows, cols) => {
   const cells = () => Array.from(new Array(cols), () => null);
@@ -46,10 +46,7 @@ export const rebuildCoordinates = (grid, letters) => {
     }
   }
 
-  const sortColorCoordinates = item => R.sort(
-    sortCooridinates,
-    item
-  );
+  const sortColorCoordinates = item => R.sort(sortCooridinates, item);
 
   return R.mapObjIndexed(sortColorCoordinates, legend);
 };
