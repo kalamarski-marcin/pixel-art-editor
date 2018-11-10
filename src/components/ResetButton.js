@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { resetEditor } from '../reducers/editor';
+import { resetEditor } from '../store/actions';
 
 class ResetButton extends Component {
   render() {

@@ -7,8 +7,4 @@ const EditorSidebarSectionWrapper = props => (
   </div>
 );
 
-EditorSidebarSectionWrapper.propTypes = {
-  children: PropTypes.object.isRequired,
-};
-
 export default EditorSidebarSectionWrapper;

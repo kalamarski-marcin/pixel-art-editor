@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setActiveColor } from '../reducers/editor';
+import { setActiveColor } from '../store/actions';
 import ColorPicker from '../components/ColorPicker';
 
 const R = require('ramda');

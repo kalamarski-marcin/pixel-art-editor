@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setHtml2canvasIgnore } from '../reducers/editor';
+import { setHtml2canvasIgnore } from '../store/actions';
 import PrintingOptions from '../components/PrintingOptions';
 
 const PrintingOptionsContainer = props => (

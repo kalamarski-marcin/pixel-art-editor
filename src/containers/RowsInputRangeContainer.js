@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { resizeRows } from '../reducers/editor';
+import { resizeRows } from '../store/actions';
 import InputRange from '../components/InputRange';
 
 class RowsInputRangeContainer extends Component {

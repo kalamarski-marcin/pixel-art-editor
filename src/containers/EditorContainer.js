@@ -8,7 +8,7 @@ import {
   endMultiFillingMode,
   startEraseMode,
   endEraseMode,
-} from '../reducers/editor';
+} from '../store/actions';
 import Grid from '../components/Grid';
 
 class EditorContainer extends Component {

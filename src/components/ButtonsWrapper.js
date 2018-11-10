@@ -7,8 +7,4 @@ const ButtonsWrapper = props => (
   </div>
 );
 
-ButtonsWrapper.propTypes = {
-  children: PropTypes.object.isRequired,
-};
-
 export default ButtonsWrapper;

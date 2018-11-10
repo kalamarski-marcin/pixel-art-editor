@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { resizeCols } from '../reducers/editor';
+import { resizeCols } from '../store/actions';
 import InputRange from '../components/InputRange';
 
 class ColumnsInputRangeContainer extends Component {

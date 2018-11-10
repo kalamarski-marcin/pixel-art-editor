@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { clearEditor } from '../reducers/editor';
+import { clearEditor } from '../store/actions';
 
 class ClearButton extends Component {
   render() {

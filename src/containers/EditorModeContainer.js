@@ -6,7 +6,7 @@ import {
   enableMultiFillingMode,
   enableAreaFillingMode,
   enableEraseMode,
-} from '../reducers/editor';
+} from '../store/actions';
 import EditorMode from '../components/EditorMode';
 
 const EditorModeContainer = props => (
