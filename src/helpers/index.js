@@ -114,7 +114,7 @@ export const fillArea = (state, row, col) => {
   const chosenCellColor = grid[row][col];
 
   const rows = grid.length;
-  const cols = grid[0].length;
+  const cols = grid[0].length
 
   function floodFill(row, col) {
     const stack = Array();
@@ -124,7 +124,7 @@ export const fillArea = (state, row, col) => {
       const point = stack.pop();
       const currentCellColor = grid[point[0]][point[1]];
 
-      if(R.isNil(currentCellColor) || R.equals(chosenCellColor, currentCellColor)) {
+      if(R.isNil(currentCellColor) || (R.equals(chosenCellColor, currentCellColor) && !R.equals(chosenCellColor, activeColor))) {
         grid[point[0]][point[1]] = activeColor;
 
         if (point[0] < rows - 1) {
