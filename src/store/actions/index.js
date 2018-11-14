@@ -7,16 +7,10 @@ const {
   CLEAR_EDITOR,
   RESET_EDITOR,
   SET_HTML2CANVAS_IGNORE,
-  FILL_AREA,
-  FILL_CELL,
-  ENABLE_SINGLE_FILLING_MODE,
-  ENABLE_MULTI_FILLING_MODE,
-  START_MULTI_FILLING_MODE,
-  END_MULTI_FILLING_MODE,
-  ENABLE_AREA_FILLING_MODE,
-  ENABLE_ERASE_MODE,
-  START_ERASE_MODE,
-  END_ERASE_MODE,
+  ENABLE_MODE,
+  START_MODE,
+  RUN_MODE,
+  END_MODE
 } = ActionTypes;
 
 export const resetEditor = () => (
@@ -35,12 +29,8 @@ export const setActiveColor = activeColor => (
   { type: SET_ACTIVE_COLOR, activeColor }
 );
 
-export const fillAreaAction = (row, col) => (
-  { type: FILL_AREA, row, col }
-);
-
-export const fillCellAction = (row, col) => (
-  { type: FILL_CELL, row, col }
+export const runMode = (row, col) => (
+  { type: RUN_MODE, row, col }
 );
 
 export const resizeCols = cols => (
@@ -51,34 +41,14 @@ export const resizeRows = rows => (
   { type: RESIZE_ROWS, rows }
 );
 
-export const enableSingleFillingMode = () => (
-  { type: ENABLE_SINGLE_FILLING_MODE }
-);
+export const enableMode = mode => (
+  { type: ENABLE_MODE, mode }
+)
+//todo: remove mode
+export const startMode = (row, col, mode) => (
+  { type: START_MODE, row, col, mode }
+)
 
-export const enableMultiFillingMode = () => (
-  { type: ENABLE_MULTI_FILLING_MODE }
-);
-
-export const enableAreaFillingMode = () => (
-  { type: ENABLE_AREA_FILLING_MODE }
-);
-
-export const enableEraseMode = () => (
-  { type: ENABLE_ERASE_MODE }
-);
-
-export const startMultiFillingMode = (row, col) => (
-  { type: START_MULTI_FILLING_MODE, row, col }
-);
-
-export const endMultiFillingMode = () => {
-  return { type: END_MULTI_FILLING_MODE };
-};
-
-export const startEraseMode = (row, col) => (
-  { type: START_ERASE_MODE, row, col }
-);
-
-export const endEraseMode = () => {
-  return { type: END_ERASE_MODE };
-};
+export const endMode = (mode) => (
+  { type: END_MODE, mode }
+)

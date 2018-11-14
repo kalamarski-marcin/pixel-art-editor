@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import { sortCoordinates } from '../utils';
+
 const R = require('ramda');
 
 class LegendItem extends Component {
@@ -17,7 +20,7 @@ class LegendItem extends Component {
           style={{ backgroundColor: this.props.color }}
         />
         <span className="legend-item__coords">
-          {this.props.coordinates.join(', ')}
+          {this.props.coordinates.sort(sortCoordinates).join(', ')}
         </span>
       </div>
     );

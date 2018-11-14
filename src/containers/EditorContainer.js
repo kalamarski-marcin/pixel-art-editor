@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import {
   fillAreaAction,
   fillCellAction,
-  startMultiFillingMode,
-  endMultiFillingMode,
-  startEraseMode,
-  endEraseMode,
+  startMode,
+  endMode,
+  runMode
 } from '../store/actions';
 import Grid from '../components/Grid';
+import { getEnabledMode } from '../utils';
 
 class EditorContainer extends Component {
   constructor(props) {
@@ -24,27 +24,29 @@ class EditorContainer extends Component {
     const row = event.target.dataset.row;
     const col = event.target.dataset.col;
 
-    if (this.props.mode.fillSingleCell.enabled) {
-      this.props.fillCellAction(row, col);
+    const enabledMode = getEnabledMode(this.props.modes);
+
+    if (enabledMode.name === 'fillSingleCell') {
+      this.props.runMode(row, col);
     }
 
-    if (this.props.mode.fillMultipleCells.enabled) {
-      if (this.props.mode.fillMultipleCells.started) {
-        this.props.endMultiFillingMode();
+    if (enabledMode.name === 'fillMultipleCells') {
+      if (enabledMode.started) {
+        this.props.endMode('fillMultipleCells');
       } else {
-        this.props.startMultiFillingMode(row, col);
+        this.props.startMode(row, col, 'fillMultipleCells');
       }
     }
 
-    if (this.props.mode.fillArea.enabled) {
-      this.props.fillAreaAction(row, col);
+    if (enabledMode.name === 'fillArea') {
+      this.props.runMode(row, col);
     }
 
-    if (this.props.mode.erase.enabled) {
-      if (this.props.mode.erase.started) {
-        this.props.endEraseMode();
+    if (enabledMode.name === 'erase') {
+      if (enabledMode.started) {
+        this.props.endMode('erase');
       } else {
-        this.props.startEraseMode(row, col);
+        this.props.startMode(row, col, 'erase');
       }
     }
   }
@@ -53,20 +55,24 @@ class EditorContainer extends Component {
     const row = event.target.dataset.row;
     const col = event.target.dataset.col;
 
-    if (this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started) {
-      this.props.fillCellAction(row, col);
+    const enabledMode = getEnabledMode(this.props.modes);
+
+    if (enabledMode.name === 'fillMultipleCells' && enabledMode.started) {
+      this.props.runMode(row, col);
     }
-    if (this.props.mode.erase.enabled && this.props.mode.erase.started) {
-      this.props.fillCellAction(row, col);
+    if (enabledMode.name === 'erase' && enabledMode.started) {
+      this.props.runMode(row, col);
     }
   }
 
   handleOnMouseLeave() {
-    if (this.props.mode.fillMultipleCells.enabled && this.props.mode.fillMultipleCells.started) {
-      this.props.endMultiFillingMode();
+    const enabledMode = getEnabledMode(this.props.modes);
+
+    if (enabledMode.name === 'fillMultipleCells' && enabledMode.started) {
+      this.props.endMode();
     }
-    if (this.props.mode.erase.enabled && this.props.mode.erase.started) {
-      this.props.endEraseMode();
+    if (enabledMode.name === 'erase' && enabledMode.started) {
+      this.props.endMode();
     }
   }
 
@@ -76,7 +82,7 @@ class EditorContainer extends Component {
         html2canvasIgnore={this.props.html2canvasIgnore}
         gridHeader={this.props.gridHeader}
         grid={this.props.grid}
-        mode={this.props.mode}
+        modes={this.props.modes}
         onClick={this.handleOnClick}
         onMouseEnter={this.handleOnMouseEnter}
         onMouseLeave={this.handleOnMouseLeave}
@@ -86,30 +92,23 @@ class EditorContainer extends Component {
 }
 
 EditorContainer.propTypes = {
-  mode: PropTypes.object.isRequired,
-  startMultiFillingMode: PropTypes.func.isRequired,
-  endMultiFillingMode: PropTypes.func.isRequired,
-  fillAreaAction: PropTypes.func.isRequired,
-  fillCellAction: PropTypes.func.isRequired,
+  modes: PropTypes.array.isRequired,
+  runMode: PropTypes.func.isRequired,
+  endMode: PropTypes.func.isRequired,
   grid: PropTypes.array.isRequired,
   gridHeader: PropTypes.array.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,
-  activeColor: PropTypes.string.isRequired,
-  startEraseMode: PropTypes.func.isRequired,
-  endEraseMode: PropTypes.func.isRequired,
+  activeColor: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = {
-  fillAreaAction,
-  fillCellAction,
-  startMultiFillingMode,
-  endMultiFillingMode,
-  startEraseMode,
-  endEraseMode,
+  startMode,
+  endMode,
+  runMode
 };
 
 const mapStateToProps = state => ({
-  mode: state.editor.mode,
+  modes: state.editor.modes,
   grid: state.editor.grid,
   zoom: state.editor.zoom,
   gridHeader: state.editor.gridHeader,

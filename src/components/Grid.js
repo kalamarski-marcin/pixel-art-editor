@@ -11,7 +11,7 @@ const renderRows = props => {
         row={index}
         cells={props.grid[index]}
         html2canvasIgnore={props.html2canvasIgnore}
-        mode={props.mode}
+        modes={props.modes}
         onClick={props.onClick}
         onMouseEnter={props.onMouseEnter}
       />
@@ -33,7 +33,7 @@ const Grid = props => {
 };
 
 Grid.propTypes = {
-  mode: PropTypes.object.isRequired,
+  modes: PropTypes.array.isRequired,
   grid: PropTypes.array.isRequired,
   gridHeader: PropTypes.array.isRequired,
   onClick: PropTypes.func.isRequired,

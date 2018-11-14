@@ -15,7 +15,7 @@ const renderCells = props => {
         onClick={props.onClick}
         onMouseEnter={props.onMouseEnter}
         html2canvasIgnore={props.html2canvasIgnore}
-        mode={props.mode}
+        modes={props.modes}
       />
     );
   });
@@ -46,7 +46,7 @@ Row.propTypes = {
   onClick: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,
-  mode: PropTypes.object.isRequired,
+  modes: PropTypes.array.isRequired,
 };
 
 export default Row;

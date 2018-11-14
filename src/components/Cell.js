@@ -7,7 +7,7 @@ class Cell extends Component {
   shouldComponentUpdate(nextProps) {
     return this.props.backgroundColor !== nextProps.backgroundColor ||
       this.props.html2canvasIgnore !== nextProps.html2canvasIgnore ||
-      !R.equals(this.props.mode, nextProps.mode);
+      !R.equals(this.props.modes, nextProps.modes);
   }
 
   render() {
@@ -32,7 +32,7 @@ Cell.propTypes = {
   row: PropTypes.number.isRequired,
   col: PropTypes.number.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,
-  mode: PropTypes.object.isRequired,
+  modes: PropTypes.array.isRequired,
   onClick: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,
 };

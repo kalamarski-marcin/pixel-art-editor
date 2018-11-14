@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  enableSingleFillingMode,
-  enableMultiFillingMode,
-  enableAreaFillingMode,
-  enableEraseMode,
-} from '../store/actions';
+import { enableMode } from '../store/actions';
 import EditorMode from '../components/EditorMode';
 
 const EditorModeContainer = props => (
@@ -14,22 +9,14 @@ const EditorModeContainer = props => (
 );
 
 EditorModeContainer.propTypes = {
-  mode: PropTypes.object.isRequired,
-  enableSingleFillingMode: PropTypes.func.isRequired,
-  enableMultiFillingMode: PropTypes.func.isRequired,
-  enableAreaFillingMode: PropTypes.func.isRequired,
-  enableEraseMode: PropTypes.func.isRequired,
+  modes: PropTypes.array.isRequired,
+  enableMode: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = {
-  enableSingleFillingMode,
-  enableMultiFillingMode,
-  enableAreaFillingMode,
-  enableEraseMode,
-};
+const mapDispatchToProps = { enableMode };
 
 const mapStateToProps = state => ({
-  mode: state.editor.mode,
+  modes: state.editor.modes,
 });
 
 export default connect(
