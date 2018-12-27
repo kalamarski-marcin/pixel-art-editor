@@ -4,6 +4,8 @@ const constants = {
   SET_ACTIVE_COLOR: null,
   RESIZE_ROWS: null,
   RESIZE_COLS: null,
+  ZOOM_IN: null,
+  ZOOM_OUT: null,
   RESET_EDITOR: null,
   CLEAR_EDITOR: null,
   SET_HTML2CANVAS_IGNORE: null,

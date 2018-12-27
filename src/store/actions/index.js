@@ -4,6 +4,8 @@ const {
   SET_ACTIVE_COLOR,
   RESIZE_COLS,
   RESIZE_ROWS,
+  ZOOM_IN,
+  ZOOM_OUT,
   CLEAR_EDITOR,
   RESET_EDITOR,
   SET_HTML2CANVAS_IGNORE,
@@ -41,10 +43,18 @@ export const resizeRows = rows => (
   { type: RESIZE_ROWS, rows }
 );
 
+export const zoomIn = () => (
+  { type: ZOOM_IN }
+)
+
+export const zoomOut = () => (
+  { type: ZOOM_OUT }
+)
+
 export const enableMode = mode => (
   { type: ENABLE_MODE, mode }
 )
-//todo: remove mode
+
 export const startMode = (row, col, mode) => (
   { type: START_MODE, row, col, mode }
 )

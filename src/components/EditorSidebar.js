@@ -7,14 +7,18 @@ import RowsInputRangeContainer from '../containers/RowsInputRangeContainer';
 import ColorPickerContainer from '../containers/ColorPickerContainer';
 import PrintingOptionsContainer from '../containers/PrintingOptionsContainer';
 import EditorModeContainer from '../containers/EditorModeContainer';
-import ResetButton from '../components/ResetButton';
-import ClearButton from '../components/ClearButton';
-import PrintButton from '../components/PrintButton';
+import Zoom from './Zoom';
+import ResetButton from './ResetButton';
+import ClearButton from './ClearButton';
+import PrintButton from './PrintButton';
 
 class EditorSidebar extends Component {
   render() {
     return (
       <Fragment>
+        <EditorSidebarSectionWrapper>
+          <Zoom />
+        </EditorSidebarSectionWrapper>
         <EditorSidebarSectionWrapper>
           <ColumnInputRangeContainer />
           <RowsInputRangeContainer />

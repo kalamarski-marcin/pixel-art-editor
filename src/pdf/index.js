@@ -23,6 +23,7 @@ export const createGridImage = () => {
   editorGridClone.id = 'editor-grid-clone';
   editorGridClone.style.position = 'absolute';
   editorGridClone.style.marginLeft = '-2000px';
+  editorGridClone.querySelectorAll('.editor-grid__cell').forEach(i => i.style = '');
 
   document.body.appendChild(editorGridClone);
 

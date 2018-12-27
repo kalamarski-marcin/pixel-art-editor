@@ -79,9 +79,11 @@ class EditorContainer extends Component {
   render() {
     return (
       <Grid
+        cellWidth={this.props.cellWidth}
         html2canvasIgnore={this.props.html2canvasIgnore}
         gridHeader={this.props.gridHeader}
         grid={this.props.grid}
+        zoom={this.props.zoom}
         modes={this.props.modes}
         onClick={this.handleOnClick}
         onMouseEnter={this.handleOnMouseEnter}
@@ -98,7 +100,8 @@ EditorContainer.propTypes = {
   grid: PropTypes.array.isRequired,
   gridHeader: PropTypes.array.isRequired,
   html2canvasIgnore: PropTypes.bool.isRequired,
-  activeColor: PropTypes.string.isRequired
+  activeColor: PropTypes.string.isRequired,
+  cellWidth: PropTypes.number.isRequired
 };
 
 const mapDispatchToProps = {
@@ -114,6 +117,7 @@ const mapStateToProps = state => ({
   gridHeader: state.editor.gridHeader,
   html2canvasIgnore: state.editor.html2canvasIgnore,
   activeColor: state.editor.activeColor,
+  cellWidth: state.editor.cellWidth
 });
 
 export default connect(

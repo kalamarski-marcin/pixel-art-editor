@@ -7,11 +7,11 @@ const {
   SET_ACTIVE_COLOR,
   RESIZE_COLS,
   RESIZE_ROWS,
+  ZOOM_IN,
+  ZOOM_OUT,
   CLEAR_EDITOR,
   RESET_EDITOR,
   SET_HTML2CANVAS_IGNORE,
-  FILL_AREA,
-  FILL_CELL,
   ENABLE_MODE,
   START_MODE,
   END_MODE,
@@ -21,19 +21,19 @@ const {
 import {
   createGridHeader,
   createGrid,
-  rebuildCoordinates,
-  buildCoordinate,
-  updateColors,
   enableMode,
   startMode,
   endMode,
   runMode,
   resizeCols,
-  resizeRows
+  resizeRows,
+  zoomIn,
+  zoomOut
 } from '../../utils';
 
 const DEFAULT_ROWS = 20;
 const DEFAULT_COLS = 20;
+const DEFAULT_CELL_WIDTH = 28;
 
 const initialState = {
   gridHeader: createGridHeader(DEFAULT_COLS),
@@ -41,6 +41,7 @@ const initialState = {
   activeColor: '#000000',
   cols: DEFAULT_COLS,
   rows: DEFAULT_ROWS,
+  cellWidth: DEFAULT_CELL_WIDTH,
   colors: COLORS,
   html2canvasIgnore: true,
   modes: [
@@ -83,6 +84,12 @@ function editor(state = initialState, action) {
     }
     case RESIZE_ROWS: {
       return resizeRows(state, action.rows);
+    }
+    case ZOOM_IN: {
+      return zoomIn(state);
+    }
+    case ZOOM_OUT: {
+      return zoomOut(state);
     }
     default:
       return state;

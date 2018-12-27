@@ -231,3 +231,32 @@ export const resizeRows = (state, rows) => {
 
   return { ...state, rows, grid, colors };
 }
+
+export const zoomIn = state => {
+  const cellWidth = state.cellWidth;
+
+  return { ...state, cellWidth: cellWidth == 38 ? cellWidth : state.cellWidth + 1 }
+}
+
+export const zoomOut = state => {
+  const cellWidth = state.cellWidth;
+
+  return { ...state, cellWidth: cellWidth == 28 ? cellWidth : state.cellWidth - 1 }
+}
+
+export const cellHeightStyle = cellWidth => ({
+  height: `${cellWidth}px`,
+  minHeight: `${cellWidth}px`
+})
+
+export const cellWidthStyle = cellWidth => ({
+  width: `${cellWidth}px`,
+  minWidth: `${cellWidth}px`
+})
+
+export const cellSizeStyle = cellWidth => {
+  let width = cellWidthStyle(cellWidth);
+  let height = cellHeightStyle(cellWidth);
+
+  return { ...height, ...width }
+}
