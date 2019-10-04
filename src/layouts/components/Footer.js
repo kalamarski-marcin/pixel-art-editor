@@ -8,11 +8,11 @@ const Footer = () => (
     </span>
     &nbsp; by &nbsp;
     <a
-      href="https://github.com/soitoshki"
+      href="https://github.com/kalamarski-marcin"
       target="_blank"
       rel="noopener noreferrer"
     >
-      soitoshki
+      Marcin Kałamarski
     </a>
   </div>
 );
